@@ -2,7 +2,7 @@ package entechlib.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import entech.commands.EntechCommandBase;
+import entechlib.commands.EntechCommandBase;
 
 public class EJoystick extends CommandJoystick {
     private final Joystick hid;
