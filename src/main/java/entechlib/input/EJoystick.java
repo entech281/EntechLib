@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import entechlib.commands.EntechCommandBase;
 
-public class EJoystick extends CommandJoystick {
+public class EJoystick extends CommandJoystick implements DriveInputDevice {
     private final Joystick hid;
 
     public EJoystick(int port) {
@@ -48,5 +48,10 @@ public class EJoystick extends CommandJoystick {
 
     public double getZ() {
         return hid.getZ();
+    }
+
+    @Override
+    public DriveInput getDriveInput() {
+        return new DriveInput(-getY(), -getX(), -getZ());
     }
 }
