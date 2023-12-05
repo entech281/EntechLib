@@ -138,19 +138,19 @@ public class SwerveDrive {
         }
 
         // Convert the commanded speeds into the correct units for the drivetrain
-        double xSpeedDelivered = driveInput.getXSpeed() * swerveConfig.hardwareConfig.maxSpeedMetersPerSecond;
-        double ySpeedDelivered = driveInput.getYSpeed() * swerveConfig.hardwareConfig.maxSpeedMetersPerSecond;
+        double xSpeedDelivered = driveInput.getXSpeed() * swerveConfig.maxSpeedMetersPerSecond;
+        double ySpeedDelivered = driveInput.getYSpeed() * swerveConfig.maxSpeedMetersPerSecond;
         double rotDelivered = driveInput.getRotationSpeed()
-                * swerveConfig.hardwareConfig.maxAngularSpeedRadiansPerSecond;
+                * swerveConfig.maxAngularSpeedRadiansPerSecond;
 
-        var swerveModuleStates = swerveConfig.hardwareConfig.driveKinematics.toSwerveModuleStates(
+        var swerveModuleStates = swerveConfig.driveKinematics.toSwerveModuleStates(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                                 Rotation2d.fromDegrees(GYRO_ORIENTATION * getGyroAngle()))
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, swerveConfig.hardwareConfig.maxSpeedMetersPerSecond);
+                swerveModuleStates, swerveConfig.maxSpeedMetersPerSecond);
 
         frontLeft.setDesiredState(swerveModuleStates[0]);
         frontRight.setDesiredState(swerveModuleStates[1]);
@@ -234,7 +234,7 @@ public class SwerveDrive {
         }
 
         odometry = new SwerveDriveOdometry(
-                swerveConfig.hardwareConfig.driveKinematics,
+                swerveConfig.driveKinematics,
                 Rotation2d.fromDegrees(GYRO_ORIENTATION * gyro.getAngle()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),

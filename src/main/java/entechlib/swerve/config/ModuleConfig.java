@@ -1,22 +1,12 @@
 package entechlib.swerve.config;
 
 public class ModuleConfig {
-    public enum motorType {
-        sparkMaxNeo
-    }
-
-    public enum absoluteEncoderType {
-        thrifty;
-    }
-
-    public final motorType motorTypes;
     public final int turningMotorID;
     public final int driveMotorID;
     public final int absoluteEncoderID;
-    public final absoluteEncoderType absoluteEncoderType;
     public final double encoderOffsetRadians;
-    public final boolean drivingMotorInverted;
-    public final boolean turningMotorInverted;
+    public boolean drivingMotorInverted = false;
+    public boolean turningMotorInverted = true;
 
     /**
      * 
@@ -30,16 +20,11 @@ public class ModuleConfig {
      * @param drivingMotorInverted
      * @param turningMotorInverted
      */
-    public ModuleConfig(motorType motorTypes, absoluteEncoderType absoluteEncoderType, int turningMotorID,
-            int driveMotorID, int absoluteEncoderID, double encoderOffsetRadians, boolean drivingMotorInverted,
-            boolean turningMotorInverted) {
-        this.motorTypes = motorTypes;
+    public ModuleConfig(int turningMotorID,
+            int driveMotorID, int absoluteEncoderID, double encoderOffsetRadians) {
         this.turningMotorID = turningMotorID;
         this.driveMotorID = driveMotorID;
         this.absoluteEncoderID = absoluteEncoderID;
-        this.absoluteEncoderType = absoluteEncoderType;
-        this.drivingMotorInverted = drivingMotorInverted;
-        this.turningMotorInverted = turningMotorInverted;
         this.encoderOffsetRadians = encoderOffsetRadians;
     }
 }

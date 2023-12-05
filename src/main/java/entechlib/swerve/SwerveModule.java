@@ -5,6 +5,7 @@
 package entechlib.swerve;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -111,8 +112,8 @@ public class SwerveModule {
                 m_turningPIDController.setOutputRange(SwerveModuleConstants.TURNING_MIN_OUTPUT_NORMALIZED,
                                 SwerveModuleConstants.TURNING_MAX_OUTPUT_NORMALIZED);
 
-                m_drivingSparkMax.setIdleMode(config.electronicsConfig.driveMotorIdleMode);
-                m_turningSparkMax.setIdleMode(config.electronicsConfig.turningMotorIdleMode);
+                m_drivingSparkMax.setIdleMode(IdleMode.kBrake);
+                m_turningSparkMax.setIdleMode(IdleMode.kBrake);
                 m_drivingSparkMax.setSmartCurrentLimit(config.electronicsConfig.driveMotorCurrentLimit);
                 m_turningSparkMax.setSmartCurrentLimit(config.electronicsConfig.turningMotorCurrentLimit);
 
