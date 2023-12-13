@@ -138,19 +138,19 @@ public class SwerveDrive {
         }
 
         // Convert the commanded speeds into the correct units for the drivetrain
-        double xSpeedDelivered = driveInput.getXSpeed() * swerveConfig.maxSpeedMetersPerSecond;
-        double ySpeedDelivered = driveInput.getYSpeed() * swerveConfig.maxSpeedMetersPerSecond;
+        double xSpeedDelivered = driveInput.getXSpeed() * swerveConfig.getMaxSpeedMetersPerSecond();
+        double ySpeedDelivered = driveInput.getYSpeed() * swerveConfig.getMaxSpeedMetersPerSecond();
         double rotDelivered = driveInput.getRotationSpeed()
-                * swerveConfig.maxAngularSpeedRadiansPerSecond;
+                * swerveConfig.getMaxAngularSpeedRadiansPerSecond();
 
-        var swerveModuleStates = swerveConfig.driveKinematics.toSwerveModuleStates(
+        var swerveModuleStates = swerveConfig.getDriveKinematics().toSwerveModuleStates(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
                                 Rotation2d.fromDegrees(GYRO_ORIENTATION * getGyroAngle()))
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, swerveConfig.maxSpeedMetersPerSecond);
+                swerveModuleStates, swerveConfig.getMaxSpeedMetersPerSecond());
 
         frontLeft.setDesiredState(swerveModuleStates[0]);
         frontRight.setDesiredState(swerveModuleStates[1]);
@@ -214,16 +214,16 @@ public class SwerveDrive {
      * @return The turn rate of the robot, in degrees per second
      */
     public Double getTurnRate() {
-        return gyro.getRate() * (swerveConfig.electronicsConfig.imuConfig.reversed ? -1.0 : 1.0);
+        return gyro.getRate() * (swerveConfig.getGyroInverted() ? -1.0 : 1.0);
     }
 
     public SwerveDrive(SwerveConfig swerveConfig) {
         this.swerveConfig = swerveConfig;
 
-        frontLeft = ConfigConstructionUtil.createModule(swerveConfig, swerveConfig.electronicsConfig.frontLeft);
-        frontRight = ConfigConstructionUtil.createModule(swerveConfig, swerveConfig.electronicsConfig.frontRight);
-        rearLeft = ConfigConstructionUtil.createModule(swerveConfig, swerveConfig.electronicsConfig.rearLeft);
-        rearRight = ConfigConstructionUtil.createModule(swerveConfig, swerveConfig.electronicsConfig.rearRight);
+        frontLeft = new SwerveModule(swerveConfig, swerveConfig.getFrontLeft());
+        frontRight = new SwerveModule(swerveConfig, swerveConfig.getFrontRight());
+        rearLeft = new SwerveModule(swerveConfig, swerveConfig.getRearLeft());
+        rearRight = new SwerveModule(swerveConfig, swerveConfig.getRearRight());
 
         gyro = new AHRS(Port.kMXP);
         // calibrateGyro();
@@ -234,7 +234,7 @@ public class SwerveDrive {
         }
 
         odometry = new SwerveDriveOdometry(
-                swerveConfig.driveKinematics,
+                swerveConfig.getDriveKinematics(),
                 Rotation2d.fromDegrees(GYRO_ORIENTATION * gyro.getAngle()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),

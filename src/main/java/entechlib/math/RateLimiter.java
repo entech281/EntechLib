@@ -10,9 +10,9 @@ public class RateLimiter {
     private final double directionalSlewRate;
 
     public RateLimiter(RateLimiterConfig config) {
-        m_magLimiter = new SlewRateLimiter(config.magnitudeSlewRate);
-        m_rotLimiter = new SlewRateLimiter(config.rotationalSlewRate);
-        directionalSlewRate = config.directionalSlewRate;
+        m_magLimiter = new SlewRateLimiter(config.getMagnitudeSlewRate());
+        m_rotLimiter = new SlewRateLimiter(config.getRotationalSlewRate());
+        directionalSlewRate = config.getDirectionalSlewRate();
     }
 
     private double m_currentTranslationDir = 0.0;

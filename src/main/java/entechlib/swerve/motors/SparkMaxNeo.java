@@ -1,59 +1,101 @@
 package entechlib.swerve.motors;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
-import entechlib.swerve.config.MotorConfig;
+import entechlib.swerve.ConfigConstructionUtil.ControlType;
 
-public class SparkMaxNeo {
+public class SparkMaxNeo implements SwerveMotor {
     private final CANSparkMax controller;
+    private final SparkMaxPIDController pidController;
+    private final RelativeEncoder encoder;
+    private final ControlType control;
+    private boolean inverted = false;
 
-    public SparkMaxNeo(int id) {
+    public SparkMaxNeo(int id, ControlType control) {
         controller = new CANSparkMax(id, MotorType.kBrushless);
+        controller.restoreFactoryDefaults();
+        pidController = controller.getPIDController();
+        encoder = controller.getEncoder();
+        pidController.setOutputRange(-1, 1);
+        pidController.setFeedbackDevice(encoder);
+        controller.setIdleMode(IdleMode.kBrake);
+        controller.setInverted(inverted);
+        pidController.setPositionPIDWrappingEnabled(true);
+        pidController.setPositionPIDWrappingMinInput(-1);
+        pidController.setPositionPIDWrappingMaxInput(1);
+        this.control = control;
     }
 
-    public void configure(MotorConfig config) {
-        controller.restoreFactoryDefaults();
-        controller.setSmartCurrentLimit(config.currentLimit);
-        controller.setIdleMode(IdleMode.kBrake);
+    @Override
+    public void setPID(double p, double i, double d, double ff) {
+        pidController.setP(p);
+        pidController.setI(i);
+        pidController.setD(d);
+        pidController.setFF(ff);
+    }
 
-        RelativeEncoder encoder = controller.getEncoder();
-        SparkMaxPIDController pidController = controller.getPIDController();
+    @Override
+    public void setCurrentLimit(int limit) {
+        controller.setSmartCurrentLimit(limit);
+    }
 
-        pidController.setFeedbackDevice(encoder);
-        pidController.setP(config.p);
-        pidController.setI(config.i);
-        pidController.setD(config.d);
-        pidController.setFF(config.ff);
-        pidController.setOutputRange(-1, 1);
-
-        encoder.setPositionConversionFactor(config.positionFactor);
-        encoder.setVelocityConversionFactor(config.velocityFactor);
-
+    @Override
+    public void completeConfigure() {
         controller.burnFlash();
     }
 
+    @Override
+    public void setPositionConversionFactor(double positionConversionFactor) {
+        encoder.setPositionConversionFactor(positionConversionFactor);
+    }
+
+    @Override
+    public void setVelocityConversionFactor(double positionConversionFactor) {
+        encoder.setVelocityConversionFactor(positionConversionFactor);
+    }
+
+    @Override
     public void set(double speed) {
         controller.set(speed);
     }
 
+    @Override
     public void setPosition(double position) {
-        controller.getEncoder().setPosition(position);
+        encoder.setPosition(position);
     }
 
+    @Override
     public double getPosition() {
-        return controller.getEncoder().getPosition();
+        return encoder.getPosition();
     }
 
+    @Override
     public double getVelocity() {
-        return controller.getEncoder().getVelocity();
+        return encoder.getVelocity();
     }
 
-    public void setReference(double value, ControlType control) {
-        controller.getPIDController().setReference(value, control);
+    @Override
+    public void setReference(double value) {
+        switch (control) {
+            case POSITION:
+                pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kPosition);
+            case VELOCITY:
+                pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kVelocity);
+        }
+    }
+
+    @Override
+    public boolean getInverted() {
+        return inverted;
+    }
+
+    @Override
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+        controller.setInverted(inverted);
     }
 }

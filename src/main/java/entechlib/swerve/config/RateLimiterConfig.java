@@ -2,19 +2,42 @@ package entechlib.swerve.config;
 
 public class RateLimiterConfig {
     /** radians per second */
-    public double directionalSlewRate = 1.2;
+    private double directionalSlewRate = 1.2;
     /** percent per second (1 = 100%) */
-    public double magnitudeSlewRate = 1.8;
+    private double magnitudeSlewRate = 1.8;
     /** percent per second (1 = 100%) */
-    public double rotationalSlewRate = 2.0;
+    private double rotationalSlewRate = 2.0;
 
     public RateLimiterConfig() {
-
     }
 
     public RateLimiterConfig(double directionalSlewRate, double magnitudeSlewRate, double rotationalSlewRate) {
         this.directionalSlewRate = directionalSlewRate;
         this.magnitudeSlewRate = magnitudeSlewRate;
+        this.rotationalSlewRate = rotationalSlewRate;
+    }
+
+    public double getDirectionalSlewRate() {
+        return this.directionalSlewRate;
+    }
+
+    public void setDirectionalSlewRate(double directionalSlewRate) {
+        this.directionalSlewRate = directionalSlewRate;
+    }
+
+    public double getMagnitudeSlewRate() {
+        return this.magnitudeSlewRate;
+    }
+
+    public void setMagnitudeSlewRate(double magnitudeSlewRate) {
+        this.magnitudeSlewRate = magnitudeSlewRate;
+    }
+
+    public double getRotationalSlewRate() {
+        return this.rotationalSlewRate;
+    }
+
+    public void setRotationalSlewRate(double rotationalSlewRate) {
         this.rotationalSlewRate = rotationalSlewRate;
     }
 }
