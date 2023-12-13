@@ -1,5 +1,10 @@
 package entechlib.swerve.encoders;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public interface AbsoluteEncoder {
 
     /**

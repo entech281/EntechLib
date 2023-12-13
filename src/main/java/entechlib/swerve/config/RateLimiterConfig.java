@@ -1,5 +1,10 @@
 package entechlib.swerve.config;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class RateLimiterConfig {
     /** radians per second */
     private double directionalSlewRate = 1.2;

@@ -8,6 +8,11 @@ import com.revrobotics.SparkMaxPIDController;
 
 import entechlib.swerve.ConfigConstructionUtil.ControlType;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SparkMaxNeo implements SwerveMotor {
     private final CANSparkMax controller;
     private final SparkMaxPIDController pidController;

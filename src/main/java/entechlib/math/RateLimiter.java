@@ -6,6 +6,11 @@ import entechlib.input.DriveInput;
 import entechlib.swerve.SwerveUtils;
 import entechlib.swerve.config.RateLimiterConfig;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class RateLimiter {
     private final double directionalSlewRate;
 

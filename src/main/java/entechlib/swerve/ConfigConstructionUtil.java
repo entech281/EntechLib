@@ -6,6 +6,11 @@ import entechlib.swerve.encoders.ThriftyEncoder;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public final class ConfigConstructionUtil {
     public static enum AbsoluteEncoderType {
         THRIFTY

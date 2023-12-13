@@ -8,7 +8,7 @@ import entechlib.swerve.ConfigConstructionUtil.GyroType;
 /**
  * 
  * 
- * @author aheitkamp
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public class SwerveConfig {
 

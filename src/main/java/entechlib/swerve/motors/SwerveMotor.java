@@ -1,5 +1,10 @@
 package entechlib.swerve.motors;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public interface SwerveMotor {
     void setPID(double p, double i, double d, double ff);
 

@@ -1,5 +1,10 @@
 package entechlib.swerve.config;
 
+/**
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class ModuleConfig {
     private final int turningMotorID;
     private final int driveMotorID;
