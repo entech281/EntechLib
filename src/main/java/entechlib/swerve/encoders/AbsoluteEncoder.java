@@ -1,6 +1,7 @@
 package entechlib.swerve.encoders;
 
 /**
+ * Basic interface for an absolute encoder for a swerve module.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>

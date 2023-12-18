@@ -9,6 +9,7 @@ import com.revrobotics.SparkMaxPIDController;
 import entechlib.swerve.ConfigConstructionUtil.ControlType;
 
 /**
+ * A swerve motor for a swerve module, either turning or driving.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
@@ -17,10 +18,10 @@ public class SparkMaxNeo implements SwerveMotor {
     private final CANSparkMax controller;
     private final SparkMaxPIDController pidController;
     private final RelativeEncoder encoder;
-    private final ControlType control;
+    private ControlType control;
     private boolean inverted = false;
 
-    public SparkMaxNeo(int id, ControlType control) {
+    public SparkMaxNeo(int id) {
         controller = new CANSparkMax(id, MotorType.kBrushless);
         controller.restoreFactoryDefaults();
         pidController = controller.getPIDController();
@@ -32,6 +33,10 @@ public class SparkMaxNeo implements SwerveMotor {
         pidController.setPositionPIDWrappingEnabled(true);
         pidController.setPositionPIDWrappingMinInput(-1);
         pidController.setPositionPIDWrappingMaxInput(1);
+    }
+
+    @Override
+    public void setControlMethod(ControlType control) {
         this.control = control;
     }
 

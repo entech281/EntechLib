@@ -8,12 +8,24 @@ package entechlib.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Base class for better subsystem creation.
+ */
 public abstract class EntechSubsystem extends SubsystemBase {
 
     public EntechSubsystem() {
     }
 
+    /**
+     * Initializes the subsystem. Be sure to wrap this in an if isEnabled check.
+     */
     public abstract void initialize();
 
+    /**
+     * Used to indicate that the subsystem is enabled or not.
+     * 
+     * 
+     * @return enabled
+     */
     public abstract boolean isEnabled();
 }

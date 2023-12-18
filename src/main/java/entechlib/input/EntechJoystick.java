@@ -4,10 +4,16 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import entechlib.commands.EntechCommandBase;
 
-public class EJoystick extends CommandJoystick implements DriveInputDevice {
+/**
+ * Simplified interface for command joystick.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
+public class EntechJoystick extends CommandJoystick implements DriveInputDevice {
     private final Joystick hid;
 
-    public EJoystick(int port) {
+    public EntechJoystick(int port) {
         super(port);
         hid = this.getHID();
     }

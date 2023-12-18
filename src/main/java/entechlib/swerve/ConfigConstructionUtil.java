@@ -33,8 +33,9 @@ public final class ConfigConstructionUtil {
         SwerveMotor motor = null;
         switch (swerveConfig.getTurningMotorType()) {
             case SPARK_MAX_NEO:
-                motor = new SparkMaxNeo(id, ControlType.POSITION);
+                motor = new SparkMaxNeo(id);
         }
+        motor.setControlMethod(ControlType.POSITION);
         motor.setVelocityConversionFactor(swerveConfig.getTurningVelocityConversionRadiansPerSecondPerRPM());
         motor.setPositionConversionFactor(swerveConfig.getTurningPositionConversionRadiansPerRotation());
         motor.setPID(swerveConfig.getTurningProportional(), 0, 0, 0);
@@ -48,8 +49,9 @@ public final class ConfigConstructionUtil {
         SwerveMotor motor = null;
         switch (swerveConfig.getDrivingMotorType()) {
             case SPARK_MAX_NEO:
-                motor = new SparkMaxNeo(id, ControlType.VELOCITY);
+                motor = new SparkMaxNeo(id);
         }
+        motor.setControlMethod(ControlType.VELOCITY);
         motor.setVelocityConversionFactor(swerveConfig.getDrivingVelocityConversionMetersPerSecondPerRPM());
         motor.setPositionConversionFactor(swerveConfig.getDrivingPositionConversionMetersPerRotation());
         motor.setPID(swerveConfig.getDriveProportional(), 0, 0, swerveConfig.getDriveFeedForward());

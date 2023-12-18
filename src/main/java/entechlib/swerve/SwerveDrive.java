@@ -4,8 +4,11 @@
 
 package entechlib.swerve;
 
+import java.util.function.Consumer;
+
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,12 +17,17 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import entechlib.LibraryConstants;
 import entechlib.input.DriveInput;
 import entechlib.math.RateLimiter;
+import entechlib.swerve.config.AutoConfig;
 import entechlib.swerve.config.SwerveConfig;
 
 /**
@@ -197,6 +205,21 @@ public class SwerveDrive {
         while (!gyro.isCalibrating()) {
             ;
         }
+    }
+
+    public Command driveTrajectoryCommand(Trajectory trajectory, Subsystem driveSubsystem) {
+        AutoConfig config = swerveConfig.getAutoConfig();
+        HolonomicDriveController controller = new HolonomicDriveController(config.getXController(),
+                config.getYController(), config.getRotController());
+
+        Consumer<SwerveModuleState[]> stateSetter = (SwerveModuleState[] swerveModuleStates) -> {
+            frontLeft.setDesiredState(swerveModuleStates[0]);
+            frontRight.setDesiredState(swerveModuleStates[1]);
+            rearLeft.setDesiredState(swerveModuleStates[2]);
+            rearRight.setDesiredState(swerveModuleStates[3]);
+        };
+        return new SwerveControllerCommand(trajectory, this::getPose, swerveConfig.getDriveKinematics(), controller,
+                stateSetter, driveSubsystem);
     }
 
     /**
