@@ -25,13 +25,5 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests",
-  "java.project.sourcePaths": [
-    "src\\main\\java",
-    "src\\test\\java"
-  ],
-  "cSpell.words": [
-    "entechlib",
-    "NAVX"
-  ]
+  "java.test.defaultConfig": "WPIlibUnitTests"
 }

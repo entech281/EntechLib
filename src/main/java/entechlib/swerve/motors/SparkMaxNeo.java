@@ -1,10 +1,10 @@
 package entechlib.swerve.motors;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 
 import entechlib.swerve.ConfigConstructionUtil.ControlType;
 
@@ -16,7 +16,7 @@ import entechlib.swerve.ConfigConstructionUtil.ControlType;
  */
 public class SparkMaxNeo implements SwerveMotor {
     private final CANSparkMax controller;
-    private final SparkMaxPIDController pidController;
+    private final SparkPIDController pidController;
     private final RelativeEncoder encoder;
     private ControlType control;
     private boolean inverted = false;
