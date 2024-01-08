@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import entechlib.LibraryConstants;
+import entechlib.FieldConstants;
 import entechlib.input.DriveInput;
 import entechlib.math.RateLimiter;
 import entechlib.swerve.config.AutoConfig;
@@ -271,8 +271,8 @@ public class SwerveDrive {
         zeroHeading();
 
         Translation2d initialTranslation = new Translation2d(
-                Units.inchesToMeters(LibraryConstants.FIELD.FIELD_LENGTH_INCHES / 2),
-                Units.inchesToMeters(LibraryConstants.FIELD.FIELD_WIDTH_INCHES / 2)); // mid field
+                Units.inchesToMeters(FieldConstants.FIELD_LENGTH_INCHES / 2),
+                Units.inchesToMeters(FieldConstants.FIELD_WIDTH_INCHES / 2)); // mid field
         Rotation2d initialRotation = Rotation2d.fromDegrees(180);
         gyro.setAngleAdjustment(0);
         Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);

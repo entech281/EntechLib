@@ -1,7 +1,9 @@
 package entechlib.input;
 
 public class DriveInput {
-    private double x, y, rot;
+    private double x;
+    private double y;
+    private double rot;
 
     public DriveInput(double xSpeed, double ySpeed, double rotationSpeed) {
         x = xSpeed;
