@@ -38,7 +38,7 @@ public class SwerveConfig {
 
     private boolean turningEncoderInverted = true;
 
-    private double driveMotorFreeRPS = 5676 / 60;
+    private double driveMotorFreeRPS = 5676.0 / 60.0;
 
     private double driveMotorReduction = 6.74603175;
 

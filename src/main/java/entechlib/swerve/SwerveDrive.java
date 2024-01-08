@@ -40,22 +40,16 @@ public class SwerveDrive {
     public static final int GYRO_ORIENTATION = 1; // might be able to merge with kGyroReversed
     private RateLimiter rateLimiter;
 
-    private SwerveModule frontLeft, frontRight, rearLeft, rearRight;
+    private SwerveModule frontLeft;
+    private SwerveModule frontRight;
+    private SwerveModule rearLeft;
+    private SwerveModule rearRight;
 
     private AHRS gyro;
 
     private SwerveDriveOdometry odometry;
 
     Field2d field = new Field2d();
-    // Bad look on scope needs to be fixed
-    // public Pose3d createPose3d() {
-    // Pose2d initial = m_odometry.getPoseMeters();
-
-    // return new Pose3d(new Translation3d(initial.getX(), initial.getY(), 0.0),
-    // new Rotation3d(Units.degreesToRadians(m_gyro.getRoll()),
-    // Units.degreesToRadians(m_gyro.getPitch()),
-    // Units.degreesToRadians(m_gyro.getYaw() * -1)));
-    // }
 
     private double getGyroAngle() {
         return gyro.getAngle() + 0;
@@ -63,37 +57,7 @@ public class SwerveDrive {
 
     public void periodic() {
         field.setRobotPose(odometry.getPoseMeters());
-        // SmartDashboard.putData("Odometry Pose Field", field);
 
-        // SmartDashboard.putNumberArray("modules pose angles", new double[] {
-        // m_frontLeft.getPosition().angle.getDegrees(),
-        // m_frontRight.getPosition().angle.getDegrees(),
-        // m_rearLeft.getPosition().angle.getDegrees(),
-        // m_rearRight.getPosition().angle.getDegrees()
-        // });
-        // SmartDashboard.putNumberArray("modules pose meters", new double[] {
-        // m_frontLeft.getPosition().distanceMeters,
-        // m_frontRight.getPosition().distanceMeters,
-        // m_rearLeft.getPosition().distanceMeters,
-        // m_rearRight.getPosition().distanceMeters
-        // });
-
-        // SmartDashboard.putNumberArray("Virtual abs encoders", new double[] {
-        // m_frontLeft.getTurningAbsoluteEncoder().getVirtualPosition(),
-        // m_frontRight.getTurningAbsoluteEncoder().getVirtualPosition(),
-        // m_rearLeft.getTurningAbsoluteEncoder().getVirtualPosition(),
-        // m_rearRight.getTurningAbsoluteEncoder().getVirtualPosition()
-        // });
-        // SmartDashboard.putNumberArray("Raw abs encoders", new double[] {
-        // m_frontLeft.getTurningAbsoluteEncoder().getPosition(),
-        // m_frontRight.getTurningAbsoluteEncoder().getPosition(),
-        // m_rearLeft.getTurningAbsoluteEncoder().getPosition(),
-        // m_rearRight.getTurningAbsoluteEncoder().getPosition()
-        // });
-
-        // SmartDashboard.putData("NAVX", m_gyro);
-
-        // Update the odometry in the periodic block
         odometry.update(
                 Rotation2d.fromDegrees(GYRO_ORIENTATION * gyro.getAngle()),
                 new SwerveModulePosition[] {

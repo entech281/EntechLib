@@ -34,6 +34,7 @@ public final class ConfigConstructionUtil {
         switch (swerveConfig.getTurningMotorType()) {
             case SPARK_MAX_NEO:
                 motor = new SparkMaxNeo(id);
+                break;
         }
         motor.setControlMethod(ControlType.POSITION);
         motor.setVelocityConversionFactor(swerveConfig.getTurningVelocityConversionRadiansPerSecondPerRPM());
@@ -50,6 +51,7 @@ public final class ConfigConstructionUtil {
         switch (swerveConfig.getDrivingMotorType()) {
             case SPARK_MAX_NEO:
                 motor = new SparkMaxNeo(id);
+                break;
         }
         motor.setControlMethod(ControlType.VELOCITY);
         motor.setVelocityConversionFactor(swerveConfig.getDrivingVelocityConversionMetersPerSecondPerRPM());
@@ -66,6 +68,7 @@ public final class ConfigConstructionUtil {
         switch (swerveConfig.getEncoderType()) {
             case THRIFTY:
                 encoder = new ThriftyEncoder(id);
+                break;
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
