@@ -90,11 +90,10 @@ public class SparkMaxNeo implements SwerveMotor {
 
     @Override
     public void setReference(double value) {
-        switch (control) {
-            case POSITION:
-                pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kPosition);
-            case VELOCITY:
-                pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kVelocity);
+        if (control == ControlType.POSITION) {
+            pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kPosition);
+        } else {
+            pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kVelocity);
         }
     }
 

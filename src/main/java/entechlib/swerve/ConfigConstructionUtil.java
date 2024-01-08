@@ -12,20 +12,20 @@ import entechlib.swerve.motors.SwerveMotor;
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public final class ConfigConstructionUtil {
-    public static enum AbsoluteEncoderType {
+    public enum AbsoluteEncoderType {
         THRIFTY
     }
 
-    public static enum MotorType {
+    public enum MotorType {
         SPARK_MAX_NEO
     }
 
-    public static enum ControlType {
+    public enum ControlType {
         VELOCITY,
         POSITION
     }
 
-    public static enum GyroType {
+    public enum GyroType {
         NAVX
     }
 
@@ -72,5 +72,8 @@ public final class ConfigConstructionUtil {
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
+    }
+
+    private ConfigConstructionUtil() {
     }
 }

@@ -10,16 +10,16 @@ public class RateLimiter {
     private final double directionalSlewRate;
 
     public RateLimiter(RateLimiterConfig config) {
-        m_magLimiter = new SlewRateLimiter(config.getMagnitudeSlewRate());
-        m_rotLimiter = new SlewRateLimiter(config.getRotationalSlewRate());
+        magLimiter = new SlewRateLimiter(config.getMagnitudeSlewRate());
+        rotLimiter = new SlewRateLimiter(config.getRotationalSlewRate());
         directionalSlewRate = config.getDirectionalSlewRate();
     }
 
-    private double m_currentTranslationDir = 0.0;
-    private double m_currentTranslationMag = 0.0;
+    private double currentTranslationDir = 0.0;
+    private double currentTranslationMag = 0.0;
 
-    private final SlewRateLimiter m_magLimiter;
-    private final SlewRateLimiter m_rotLimiter;
+    private final SlewRateLimiter magLimiter;
+    private final SlewRateLimiter rotLimiter;
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
     public DriveInput limit(DriveInput input) {
@@ -32,40 +32,40 @@ public class RateLimiter {
         // acceleration
         double directionSlewRate;
 
-        if (m_currentTranslationMag != 0.0) {
-            directionSlewRate = Math.abs(directionalSlewRate / m_currentTranslationMag);
+        if (currentTranslationMag != 0.0) {
+            directionSlewRate = Math.abs(directionalSlewRate / currentTranslationMag);
         } else {
             directionSlewRate = 500.0; // some high number that means the slew rate is effectively instantaneous
         }
 
         double currentTime = WPIUtilJNI.now() * 1e-6;
         double elapsedTime = currentTime - m_prevTime;
-        double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
+        double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, currentTranslationDir);
 
         if (angleDif < 0.45 * Math.PI) {
-            m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir,
+            currentTranslationDir = SwerveUtils.StepTowardsCircular(currentTranslationDir,
                     inputTranslationDir,
                     directionSlewRate * elapsedTime);
-            m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
+            currentTranslationMag = magLimiter.calculate(inputTranslationMag);
         } else if (angleDif > 0.85 * Math.PI) {
-            if (m_currentTranslationMag > 1e-4) {
-                m_currentTranslationMag = m_magLimiter.calculate(0.0);
+            if (currentTranslationMag > 1e-4) {
+                currentTranslationMag = magLimiter.calculate(0.0);
             } else {
-                m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
-                m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
+                currentTranslationDir = SwerveUtils.WrapAngle(currentTranslationDir + Math.PI);
+                currentTranslationMag = magLimiter.calculate(inputTranslationMag);
             }
         } else {
-            m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir,
+            currentTranslationDir = SwerveUtils.StepTowardsCircular(currentTranslationDir,
                     inputTranslationDir,
                     directionSlewRate * elapsedTime);
-            m_currentTranslationMag = m_magLimiter.calculate(0.0);
+            currentTranslationMag = magLimiter.calculate(0.0);
         }
 
         m_prevTime = currentTime;
 
-        double limitedX = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
-        double limitedY = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
-        double limitedRotation = m_rotLimiter.calculate(input.getRotationSpeed());
+        double limitedX = currentTranslationMag * Math.cos(currentTranslationDir);
+        double limitedY = currentTranslationMag * Math.sin(currentTranslationDir);
+        double limitedRotation = rotLimiter.calculate(input.getRotationSpeed());
         return new DriveInput(limitedX, limitedY, limitedRotation);
     }
 }

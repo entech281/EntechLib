@@ -4,7 +4,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 
 public class AutoConfig {
-    private PIDController xController, yController;
+    private PIDController xController;
+    private PIDController yController;
     private ProfiledPIDController rotController;
 
     public PIDController getXController() {

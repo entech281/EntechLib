@@ -164,14 +164,6 @@ public class SwerveDrive {
         resetOdometry(pose2);
     }
 
-    public void calibrateGyro() {
-        // gyro.calibrate();
-        // TODO: Calibate???????????
-        while (!gyro.isCalibrating()) {
-            ;
-        }
-    }
-
     public Command driveTrajectoryCommand(Trajectory trajectory, Subsystem driveSubsystem) {
         AutoConfig config = swerveConfig.getAutoConfig();
         HolonomicDriveController controller = new HolonomicDriveController(config.getXController(),
@@ -214,7 +206,6 @@ public class SwerveDrive {
         rearRight = new SwerveModule(swerveConfig, swerveConfig.getRearRight());
 
         gyro = new AHRS(Port.kMXP);
-        // calibrateGyro();
         gyro.reset();
         gyro.zeroYaw();
         if (swerveConfig.isRateLimiting()) {

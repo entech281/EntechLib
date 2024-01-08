@@ -21,7 +21,10 @@ public class SwerveConfig {
     /** Default value is 2PI */
     private double maxAngularSpeedRadiansPerSecond = 2 * Math.PI;
 
-    private ModuleConfig frontLeft, frontRight, rearLeft, rearRight;
+    private ModuleConfig frontLeft;
+    private ModuleConfig frontRight;
+    private ModuleConfig rearLeft;
+    private ModuleConfig rearRight;
     private GyroType gyroType;
     private boolean gyroInverted;
 
@@ -55,9 +58,6 @@ public class SwerveConfig {
     private double turningProportional = 1.0;
     private double driveFeedForward = 1 / (((wheelDiameterMeters * Math.PI) * driveMotorFreeRPS) / driveMotorReduction);
     private AutoConfig autoConfig;
-
-    public SwerveConfig() {
-    }
 
     public void setModuleHardware(double driveMotorFreeRPM, double driveMotorReduction, double turningMotorReduction,
             double wheelDiameterMeters) {
