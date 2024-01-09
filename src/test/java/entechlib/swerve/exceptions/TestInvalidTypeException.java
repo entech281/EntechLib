@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class TextInvalidTypeException {
+class TestInvalidTypeException {
     @Test
     void testGetMessageNull() {
         Exception ex = new InvalidTypeException("Item", null);
