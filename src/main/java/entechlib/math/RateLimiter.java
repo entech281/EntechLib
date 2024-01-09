@@ -20,7 +20,7 @@ public class RateLimiter {
 
     private final SlewRateLimiter magLimiter;
     private final SlewRateLimiter rotLimiter;
-    private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+    private double prevTime = WPIUtilJNI.now() * 1e-6;
 
     public DriveInput limit(DriveInput input) {
         // Convert XY to polar for rate limiting
@@ -39,7 +39,7 @@ public class RateLimiter {
         }
 
         double currentTime = WPIUtilJNI.now() * 1e-6;
-        double elapsedTime = currentTime - m_prevTime;
+        double elapsedTime = currentTime - prevTime;
         double angleDif = SwerveUtils.angleDifference(inputTranslationDir, currentTranslationDir);
 
         if (angleDif < 0.45 * Math.PI) {
@@ -61,7 +61,7 @@ public class RateLimiter {
             currentTranslationMag = magLimiter.calculate(0.0);
         }
 
-        m_prevTime = currentTime;
+        prevTime = currentTime;
 
         double limitedX = currentTranslationMag * Math.cos(currentTranslationDir);
         double limitedY = currentTranslationMag * Math.sin(currentTranslationDir);

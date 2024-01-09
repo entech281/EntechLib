@@ -36,6 +36,9 @@ public final class ConfigConstructionUtil {
                 motor = new SparkMaxNeo(id);
                 break;
         }
+        if (motor == null) {
+            throw new RuntimeException("Invalid motor type. ID given: " + id);
+        }
         motor.setControlMethod(ControlType.POSITION);
         motor.setVelocityConversionFactor(swerveConfig.getTurningVelocityConversionRadiansPerSecondPerRPM());
         motor.setPositionConversionFactor(swerveConfig.getTurningPositionConversionRadiansPerRotation());
@@ -53,6 +56,9 @@ public final class ConfigConstructionUtil {
                 motor = new SparkMaxNeo(id);
                 break;
         }
+        if (motor == null) {
+            throw new RuntimeException("Invalid motor type. ID given: " + id);
+        }
         motor.setControlMethod(ControlType.VELOCITY);
         motor.setVelocityConversionFactor(swerveConfig.getDrivingVelocityConversionMetersPerSecondPerRPM());
         motor.setPositionConversionFactor(swerveConfig.getDrivingPositionConversionMetersPerRotation());
@@ -69,6 +75,9 @@ public final class ConfigConstructionUtil {
             case THRIFTY:
                 encoder = new ThriftyEncoder(id);
                 break;
+        }
+        if (encoder == null) {
+            throw new RuntimeException("Invalid encoder type. ID given: " + id);
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
