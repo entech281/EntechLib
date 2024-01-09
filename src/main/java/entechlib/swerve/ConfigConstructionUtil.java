@@ -3,6 +3,7 @@ package entechlib.swerve;
 import entechlib.swerve.config.SwerveConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
 import entechlib.swerve.encoders.ThriftyEncoder;
+import entechlib.swerve.exceptions.InvalidTypeException;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
@@ -37,7 +38,7 @@ public final class ConfigConstructionUtil {
                 break;
         }
         if (motor == null) {
-            throw new RuntimeException("Invalid motor type. ID given: " + id);
+            throw new InvalidTypeException("Motor", swerveConfig.getTurningMotorType().toString());
         }
         motor.setControlMethod(ControlType.POSITION);
         motor.setVelocityConversionFactor(swerveConfig.getTurningVelocityConversionRadiansPerSecondPerRPM());
@@ -57,7 +58,7 @@ public final class ConfigConstructionUtil {
                 break;
         }
         if (motor == null) {
-            throw new RuntimeException("Invalid motor type. ID given: " + id);
+            throw new InvalidTypeException("Motor", swerveConfig.getDrivingMotorType().toString());
         }
         motor.setControlMethod(ControlType.VELOCITY);
         motor.setVelocityConversionFactor(swerveConfig.getDrivingVelocityConversionMetersPerSecondPerRPM());
@@ -77,7 +78,7 @@ public final class ConfigConstructionUtil {
                 break;
         }
         if (encoder == null) {
-            throw new RuntimeException("Invalid encoder type. ID given: " + id);
+            throw new InvalidTypeException("Encoder", swerveConfig.getEncoderType().toString());
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
