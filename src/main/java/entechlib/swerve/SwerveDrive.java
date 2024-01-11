@@ -6,8 +6,6 @@ package entechlib.swerve;
 
 import java.util.function.Consumer;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +17,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -29,6 +26,8 @@ import entechlib.input.DriveInput;
 import entechlib.math.RateLimiter;
 import entechlib.swerve.config.AutoConfig;
 import entechlib.swerve.config.SwerveConfig;
+import entechlib.swerve.imus.navxMXP;
+import entechlib.swerve.imus.swerveIMU;
 
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
@@ -45,7 +44,7 @@ public class SwerveDrive {
     private SwerveModule rearLeft;
     private SwerveModule rearRight;
 
-    private AHRS gyro;
+    private swerveIMU gyro;
 
     private SwerveDriveOdometry odometry;
 
@@ -158,7 +157,7 @@ public class SwerveDrive {
     /** Zeroes the heading of the robot. */
     public void zeroHeading() {
         gyro.reset();
-        gyro.setAngleAdjustment(180);
+        gyro.setAngleOffset(180);
         Pose2d pose = getPose();
         Pose2d pose2 = new Pose2d(pose.getTranslation(), Rotation2d.fromDegrees(0));
         resetOdometry(pose2);
@@ -205,11 +204,11 @@ public class SwerveDrive {
         rearLeft = new SwerveModule(swerveConfig, swerveConfig.getRearLeft());
         rearRight = new SwerveModule(swerveConfig, swerveConfig.getRearRight());
 
-        gyro = new AHRS(Port.kMXP);
+        gyro = new navxMXP();
         gyro.reset();
         gyro.zeroYaw();
         if (swerveConfig.isRateLimiting()) {
-            rateLimiter = new RateLimiter(swerveConfig.getRateLimiterConfig());
+                rateLimiter = new RateLimiter(swerveConfig.getRateLimiterConfig());
         }
 
         odometry = new SwerveDriveOdometry(
@@ -229,7 +228,7 @@ public class SwerveDrive {
                 Units.inchesToMeters(FieldConstants.FIELD_LENGTH_INCHES / 2),
                 Units.inchesToMeters(FieldConstants.FIELD_WIDTH_INCHES / 2)); // mid field
         Rotation2d initialRotation = Rotation2d.fromDegrees(180);
-        gyro.setAngleAdjustment(0);
+        gyro.setAngleOffset(0);
         Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
         resetOdometry(initialPose);
     }
