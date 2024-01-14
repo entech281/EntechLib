@@ -95,6 +95,10 @@ public class SwerveDrive {
         return controller.getPose();
     }
 
+    private void autonomousDrive(ChassisSpeeds speeds) {
+        hardware.setModuleStates(controller.generateDriveStates(speeds));
+    }
+
     /**
      * Create a new swerve drive system.
      * 
@@ -110,9 +114,7 @@ public class SwerveDrive {
                 controller::getPose, // Robot pose supplier
                 this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
                 hardware::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                (ChassisSpeeds speeds) -> {
-                    hardware.setModuleStates(controller.generateDriveStates(speeds));
-                },
+                this::autonomousDrive,
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                         swerveConfig.getAutoConfig().getTranslationController(),
                         swerveConfig.getAutoConfig().getRotationController(),
