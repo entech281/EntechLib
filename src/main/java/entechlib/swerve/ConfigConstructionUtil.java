@@ -4,8 +4,8 @@ import entechlib.swerve.config.SwerveConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
 import entechlib.swerve.encoders.ThriftyEncoder;
 import entechlib.swerve.exceptions.InvalidTypeException;
+import entechlib.swerve.imus.NavxMXP;
 import entechlib.swerve.imus.SwerveIMU;
-import entechlib.swerve.imus.navxMXP;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
@@ -89,7 +89,7 @@ public final class ConfigConstructionUtil {
     public static SwerveIMU getSwerveIMU(SwerveConfig swerveConfig) {
         switch (swerveConfig.getIMUType()) {
             case NAVX_MXP:
-                return new navxMXP();
+                return new NavxMXP();
             default:
                 throw new InvalidTypeException("IMU", swerveConfig.getIMUType().toString());
         }
