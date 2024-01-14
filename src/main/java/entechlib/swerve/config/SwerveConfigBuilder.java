@@ -20,10 +20,10 @@ public class SwerveConfigBuilder {
     }
 
     public interface IMUBuilder {
-        kinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted);
+        KinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted);
     }
 
-    public interface kinematicsBuilder {
+    public interface KinematicsBuilder {
         RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters);
     }
 
@@ -36,7 +36,7 @@ public class SwerveConfigBuilder {
         void withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond);
     }
 
-    public class Builder implements MechanicalBuilder, ElectricalBuilder, IMUBuilder, kinematicsBuilder, RateLimitingBuilder, MaxSpeedBuilder {
+    public class Builder implements MechanicalBuilder, ElectricalBuilder, IMUBuilder, KinematicsBuilder, RateLimitingBuilder, MaxSpeedBuilder {
         private final TempSwerveConfig config = new TempSwerveConfig();
 
         @Override
@@ -70,7 +70,7 @@ public class SwerveConfigBuilder {
         }
 
         @Override
-        public kinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted) {
+        public KinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted) {
             config.getHardwareConfig().setGyroType(type);
             config.getHardwareConfig().setGyroOffset(offset);
             config.getHardwareConfig().setGyroInverted(inverted);
