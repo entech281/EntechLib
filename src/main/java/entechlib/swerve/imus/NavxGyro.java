@@ -4,10 +4,10 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public abstract class navxGyro implements SwerveIMU {
+public abstract class NavxGyro implements SwerveIMU {
     private final AHRS navx;
 
-    protected navxGyro(AHRS navx) {
+    protected NavxGyro(AHRS navx) {
         this.navx = navx;
     }
 

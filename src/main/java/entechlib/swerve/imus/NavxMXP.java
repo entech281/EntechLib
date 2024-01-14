@@ -4,8 +4,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 
-public class navxMXP extends navxGyro {
-    public navxMXP() {
+public class NavxMXP extends NavxGyro {
+    public NavxMXP() {
         super(new AHRS(Port.kMXP));
     }
 }
