@@ -4,6 +4,8 @@ import entechlib.swerve.config.SwerveConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
 import entechlib.swerve.encoders.ThriftyEncoder;
 import entechlib.swerve.exceptions.InvalidTypeException;
+import entechlib.swerve.imus.SwerveIMU;
+import entechlib.swerve.imus.navxMXP;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
@@ -26,8 +28,8 @@ public final class ConfigConstructionUtil {
         POSITION
     }
 
-    public enum GyroType {
-        NAVX
+    public enum IMUType {
+        NAVX_MXP
     }
 
     public static SwerveMotor getTurningMotor(SwerveConfig swerveConfig, int id, boolean inverted) {
@@ -82,6 +84,15 @@ public final class ConfigConstructionUtil {
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
+    }
+
+    public static SwerveIMU getSwerveIMU(SwerveConfig swerveConfig) {
+        switch (swerveConfig.getIMUType()) {
+            case NAVX_MXP:
+                return new navxMXP();
+            default:
+                throw new InvalidTypeException("IMU", swerveConfig.getIMUType().toString());
+        }
     }
 
     private ConfigConstructionUtil() {

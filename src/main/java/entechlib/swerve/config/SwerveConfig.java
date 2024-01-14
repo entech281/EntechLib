@@ -3,7 +3,7 @@ package entechlib.swerve.config;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import entechlib.swerve.ConfigConstructionUtil;
-import entechlib.swerve.ConfigConstructionUtil.GyroType;
+import entechlib.swerve.ConfigConstructionUtil.IMUType;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class SwerveConfig {
     private ModuleConfig frontRight;
     private ModuleConfig rearLeft;
     private ModuleConfig rearRight;
-    private GyroType gyroType;
+    private IMUType gyroType;
     private boolean gyroInverted;
 
     private ConfigConstructionUtil.AbsoluteEncoderType encoderType;
@@ -58,6 +58,9 @@ public class SwerveConfig {
     private double turningProportional = 1.0;
     private double driveFeedForward = 1 / (((wheelDiameterMeters * Math.PI) * driveMotorFreeRPS) / driveMotorReduction);
     private AutoConfig autoConfig;
+
+    private double gyroOffset = 0.0;
+    private double driveBaseRadius = 0.39;
 
     public void setModuleHardware(double driveMotorFreeRPM, double driveMotorReduction, double turningMotorReduction,
             double wheelDiameterMeters) {
@@ -247,11 +250,11 @@ public class SwerveConfig {
         this.encoderType = encoderType;
     }
 
-    public GyroType getGyroType() {
+    public IMUType getIMUType() {
         return this.gyroType;
     }
 
-    public void setGyroType(GyroType gyroType) {
+    public void setGyroType(IMUType gyroType) {
         this.gyroType = gyroType;
     }
 
@@ -281,5 +284,21 @@ public class SwerveConfig {
 
     public void setDrivingMotorType(ConfigConstructionUtil.MotorType drivingMotorType) {
         this.drivingMotorType = drivingMotorType;
+    }
+
+    public double getGyroOffset() {
+        return this.gyroOffset;
+    }
+
+    public void setGyroOffset(double gyroOffset) {
+        this.gyroOffset = gyroOffset;
+    }
+
+    public double getDriveBaseRadius() {
+        return this.driveBaseRadius;
+    }
+
+    public void setDriveBaseRadius(double driveBaseRadius) {
+        this.driveBaseRadius = driveBaseRadius;
     }
 }

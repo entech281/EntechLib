@@ -2,7 +2,9 @@ package entechlib.swerve.imus;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public abstract class navxGyro implements swerveIMU {
+import edu.wpi.first.math.geometry.Rotation2d;
+
+public abstract class navxGyro implements SwerveIMU {
     private final AHRS navx;
 
     protected navxGyro(AHRS navx) {
@@ -32,5 +34,20 @@ public abstract class navxGyro implements swerveIMU {
     @Override
     public double getRate() {
         return navx.getRate();
+    }
+
+    @Override
+    public double getVelocityX() {
+        return navx.getVelocityX();
+    }
+
+    @Override
+    public double getVelocityY() {
+        return navx.getVelocityY();
+    }
+
+    @Override
+    public Rotation2d getRotation2d() {
+        return navx.getRotation2d();
     }
 }

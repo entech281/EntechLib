@@ -1,6 +1,8 @@
 package entechlib.swerve.imus;
 
-public interface swerveIMU {
+import edu.wpi.first.math.geometry.Rotation2d;
+
+public interface SwerveIMU {
 
     double getAngle();
 
@@ -12,4 +14,9 @@ public interface swerveIMU {
 
     double getRate();
 
+    double getVelocityX();
+
+    double getVelocityY();
+
+    Rotation2d getRotation2d();
 }

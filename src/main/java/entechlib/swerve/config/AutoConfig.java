@@ -1,34 +1,24 @@
 package entechlib.swerve.config;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import com.pathplanner.lib.util.PIDConstants;
 
 public class AutoConfig {
-    private PIDController xController;
-    private PIDController yController;
-    private ProfiledPIDController rotController;
+    private PIDConstants translationController;
+    private PIDConstants rotationController;
 
-    public PIDController getXController() {
-        return this.xController;
+    public PIDConstants getTranslationController() {
+        return this.translationController;
     }
 
-    public void setXController(PIDController xController) {
-        this.xController = xController;
+    public void setTranslationController(PIDConstants translationController) {
+        this.translationController = translationController;
     }
 
-    public PIDController getYController() {
-        return this.yController;
+    public PIDConstants getRotationController() {
+        return this.rotationController;
     }
 
-    public void setYController(PIDController yController) {
-        this.yController = yController;
-    }
-
-    public ProfiledPIDController getRotController() {
-        return this.rotController;
-    }
-
-    public void setRotController(ProfiledPIDController rotController) {
-        this.rotController = rotController;
+    public void setRotationController(PIDConstants rotationController) {
+        this.rotationController = rotationController;
     }
 }
