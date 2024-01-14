@@ -182,7 +182,7 @@ public class SwerveConfigBuilder {
             return this;
         }
 
-        private void ModuleConfigHelper(ModuleConfig module, int driveMotorID, int turningMotorID,
+        private void moduleConfigHelper(ModuleConfig module, int driveMotorID, int turningMotorID,
                 int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
                 boolean turningMotorInverted) {
             module.setDriveMotorID(driveMotorID);
@@ -197,7 +197,7 @@ public class SwerveConfigBuilder {
         public FrontRightBuilder withFrontLeftModuleConstants(int driveMotorID, int turningMotorID,
                 int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
                 boolean turningMotorInverted) {
-            ModuleConfigHelper(config.hardwareConfig.frontLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            moduleConfigHelper(config.hardwareConfig.frontLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
             return this;
         }
 
@@ -205,14 +205,14 @@ public class SwerveConfigBuilder {
         public RearLeftBuilder withFrontRightModuleConstants(int driveMotorID, int turningMotorID,
                 int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
                 boolean turningMotorInverted) {
-            ModuleConfigHelper(config.hardwareConfig.frontRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            moduleConfigHelper(config.hardwareConfig.frontRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
             return this;
         }
 
         @Override
         public RearRightBuilder withRearLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID,
                 double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted) {
-            ModuleConfigHelper(config.hardwareConfig.rearLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            moduleConfigHelper(config.hardwareConfig.rearLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
             return this;
         }
 
@@ -220,7 +220,7 @@ public class SwerveConfigBuilder {
         public ConfigCompleteBuilder withRearRightModuleConstants(int driveMotorID, int turningMotorID,
                 int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
                 boolean turningMotorInverted) {
-            ModuleConfigHelper(config.hardwareConfig.rearRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            moduleConfigHelper(config.hardwareConfig.rearRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
             return this;
         }
 
