@@ -1,6 +1,7 @@
 package entechlib.swerve;
 
-import entechlib.swerve.config.SwerveConfig;
+import entechlib.swerve.config.MotorConfig;
+import entechlib.swerve.config.SwerveHardwareConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
 import entechlib.swerve.encoders.ThriftyEncoder;
 import entechlib.swerve.exceptions.InvalidTypeException;
@@ -10,6 +11,7 @@ import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
 /**
+ * Contains methods that make and configure hardware.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
@@ -32,66 +34,65 @@ public final class ConfigConstructionUtil {
         NAVX_MXP
     }
 
-    public static SwerveMotor getTurningMotor(SwerveConfig swerveConfig, int id, boolean inverted) {
+    /**
+     * Makes and configures a swerve module's motor.
+     * 
+     * 
+     * @param swerveConfig
+     * @param id
+     * @param inverted
+     * @return
+     */
+    public static SwerveMotor getMotor(MotorConfig config, int id, boolean inverted) {
         SwerveMotor motor = null;
-        switch (swerveConfig.getTurningMotorType()) {
+        switch (config.getMotorType()) {
             case SPARK_MAX_NEO:
-                motor = new SparkMaxNeo(id);
+                motor = new SparkMaxNeo(id, config, inverted);
                 break;
         }
         if (motor == null) {
-            throw new InvalidTypeException("Motor", swerveConfig.getTurningMotorType().toString());
+            throw new InvalidTypeException("Motor", config.getMotorType().toString());
         }
-        motor.setControlMethod(ControlType.POSITION);
-        motor.setVelocityConversionFactor(swerveConfig.getTurningVelocityConversionRadiansPerSecondPerRPM());
-        motor.setPositionConversionFactor(swerveConfig.getTurningPositionConversionRadiansPerRotation());
-        motor.setPID(swerveConfig.getTurningProportional(), 0, 0, 0);
-        motor.setCurrentLimit(swerveConfig.getTurningMotorCurrentLimit());
-        motor.setInverted(inverted);
-        motor.completeConfigure();
         return motor;
     }
 
-    public static SwerveMotor getDrivingMotor(SwerveConfig swerveConfig, int id, boolean inverted) {
-        SwerveMotor motor = null;
-        switch (swerveConfig.getDrivingMotorType()) {
-            case SPARK_MAX_NEO:
-                motor = new SparkMaxNeo(id);
-                break;
-        }
-        if (motor == null) {
-            throw new InvalidTypeException("Motor", swerveConfig.getDrivingMotorType().toString());
-        }
-        motor.setControlMethod(ControlType.VELOCITY);
-        motor.setVelocityConversionFactor(swerveConfig.getDrivingVelocityConversionMetersPerSecondPerRPM());
-        motor.setPositionConversionFactor(swerveConfig.getDrivingPositionConversionMetersPerRotation());
-        motor.setPID(swerveConfig.getDriveProportional(), 0, 0, swerveConfig.getDriveFeedForward());
-        motor.setCurrentLimit(swerveConfig.getDriveMotorCurrentLimit());
-        motor.setInverted(inverted);
-        motor.completeConfigure();
-        return motor;
-    }
-
-    public static AbsoluteEncoder getAbsoluteEncoder(SwerveConfig swerveConfig, int id, double offsetRadians) {
+    /**
+     * Makes and configures a swerve module's absolute encoder.
+     * 
+     * 
+     * @param swerveConfig
+     * @param id
+     * @param offsetRadians
+     * @return
+     */
+    public static AbsoluteEncoder getAbsoluteEncoder(AbsoluteEncoderType type, int id, double offsetRadians) {
         AbsoluteEncoder encoder = null;
-        switch (swerveConfig.getEncoderType()) {
+        switch (type) {
             case THRIFTY:
                 encoder = new ThriftyEncoder(id);
                 break;
         }
         if (encoder == null) {
-            throw new InvalidTypeException("Encoder", swerveConfig.getEncoderType().toString());
+            throw new InvalidTypeException("Encoder", type.toString());
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
     }
 
-    public static SwerveIMU getSwerveIMU(SwerveConfig swerveConfig) {
-        switch (swerveConfig.getIMUType()) {
+
+    /**
+     * Makes and configures a swerve bot's IMU.
+     * 
+     * 
+     * @param swerveConfig
+     * @return
+     */
+    public static SwerveIMU getSwerveIMU(SwerveHardwareConfig swerveConfig) {
+        switch (swerveConfig.getGyroType()) {
             case NAVX_MXP:
                 return new NavxMXP();
             default:
-                throw new InvalidTypeException("IMU", swerveConfig.getIMUType().toString());
+                throw new InvalidTypeException("IMU", swerveConfig.getGyroType().toString());
         }
     }
 

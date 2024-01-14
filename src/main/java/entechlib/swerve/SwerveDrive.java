@@ -13,13 +13,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import entechlib.input.DriveInput;
-import entechlib.swerve.config.SwerveConfig;
+import entechlib.swerve.config.TempSwerveConfig;
 
 /**
- * The {@code Drivetrain} class contains fields and methods pertaining to the
- * function of the drivetrain.
+ * Swerve drive system, contains the cross logic and main interface for the swerve controller and hardware.
  */
 public class SwerveDrive {
     private SwerveHardware hardware;
@@ -27,9 +27,49 @@ public class SwerveDrive {
 
     Field2d field = new Field2d();
 
+    /**
+     * Create a new swerve drive system.
+     * 
+     * 
+     * @param swerveConfig config for setup
+     * @param driveSubsystem drive subsystem for autonomous
+     */
+    public SwerveDrive(TempSwerveConfig swerveConfig, Subsystem driveSubsystem) {
+        hardware = new SwerveHardware(swerveConfig.getHardwareConfig());
+        controller = new SwerveController(swerveConfig.getControllerConfig(), hardware.getModuleStates(), getHeading());
+
+        AutoBuilder.configureHolonomic(
+                controller::getPose, // Robot pose supplier
+                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+                hardware::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::autonomousDrive,
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        swerveConfig.getControllerConfig().getTranslationController(),
+                        swerveConfig.getControllerConfig().getRotationController(),
+                        swerveConfig.getControllerConfig().getMaxSpeedMetersPerSecond(),
+                        swerveConfig.getControllerConfig().getDriveBaseRadius(),
+                        new ReplanningConfig()
+                ),
+                () -> {
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                driveSubsystem
+        );
+
+        SmartDashboard.putData(field);
+    }
+
+    /**
+     * Periodic method for the swerve system. Updates odometry related systems. Needs to be ran every periodic loop.
+     */
     public void periodic() {
         field.setRobotPose(controller.getPose());
 
+        controller.updateOdometry(hardware.getModuleStates(), hardware.getHeading());
     }
 
     /**
@@ -95,41 +135,13 @@ public class SwerveDrive {
         return controller.getPose();
     }
 
+    /**
+     * Helper method for autonomous driving.
+     * 
+     * 
+     * @param speeds Desired speeds from pathplanner.
+     */
     private void autonomousDrive(ChassisSpeeds speeds) {
         hardware.setModuleStates(controller.generateDriveStates(speeds));
-    }
-
-    /**
-     * Create a new swerve drive system.
-     * 
-     * 
-     * @param swerveConfig config for setup
-     * @param driveSubsystem drive subsystem for autonomous
-     */
-    public SwerveDrive(SwerveConfig swerveConfig, Subsystem driveSubsystem) {
-        hardware = new SwerveHardware(swerveConfig);
-        controller = new SwerveController(swerveConfig, hardware.getModuleStates(), getHeading());
-
-        AutoBuilder.configureHolonomic(
-                controller::getPose, // Robot pose supplier
-                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-                hardware::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::autonomousDrive,
-                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        swerveConfig.getAutoConfig().getTranslationController(),
-                        swerveConfig.getAutoConfig().getRotationController(),
-                        swerveConfig.getMaxSpeedMetersPerSecond(),
-                        swerveConfig.getDriveBaseRadius(),
-                        new ReplanningConfig()
-                ),
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                driveSubsystem
-        );
     }
 }

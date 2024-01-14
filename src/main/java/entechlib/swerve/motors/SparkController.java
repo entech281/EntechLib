@@ -6,15 +6,15 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import entechlib.swerve.ConfigConstructionUtil.ControlType;
+import entechlib.swerve.config.MotorConfig;
 
 public abstract class SparkController implements SwerveMotor {
     protected final CANSparkBase controller;
     protected final SparkPIDController pidController;
     protected final RelativeEncoder encoder;
-    protected ControlType control;
-    protected boolean inverted = false;
+    protected final ControlType control;
 
-    protected SparkController(CANSparkBase controller) {
+    protected SparkController(CANSparkBase controller, MotorConfig config, boolean inverted) {
         this.controller = controller;
         this.controller.restoreFactoryDefaults();
         pidController = controller.getPIDController();
@@ -26,39 +26,22 @@ public abstract class SparkController implements SwerveMotor {
         pidController.setPositionPIDWrappingEnabled(true);
         pidController.setPositionPIDWrappingMinInput(-1);
         pidController.setPositionPIDWrappingMaxInput(1);
-    }
 
-    @Override
-    public void setControlMethod(ControlType control) {
-        this.control = control;
-    }
+        control = config.getControlMethod();
 
-    @Override
-    public void setPID(double p, double i, double d, double ff) {
-        pidController.setP(p);
-        pidController.setI(i);
-        pidController.setD(d);
-        pidController.setFF(ff);
-    }
+        pidController.setP(config.getP());
+        pidController.setI(config.getI());
+        pidController.setD(config.getD());
+        pidController.setFF(config.getFF());
 
-    @Override
-    public void setCurrentLimit(int limit) {
-        controller.setSmartCurrentLimit(limit);
-    }
+        this.controller.setSmartCurrentLimit(config.getCurrentLimit());
 
-    @Override
-    public void completeConfigure() {
-        controller.burnFlash();
-    }
+        encoder.setPositionConversionFactor(config.getPositionConversionFactor());
+        encoder.setVelocityConversionFactor(config.getVelocityConversionFactor());
 
-    @Override
-    public void setPositionConversionFactor(double positionConversionFactor) {
-        encoder.setPositionConversionFactor(positionConversionFactor);
-    }
+        this.controller.burnFlash();
 
-    @Override
-    public void setVelocityConversionFactor(double positionConversionFactor) {
-        encoder.setVelocityConversionFactor(positionConversionFactor);
+        this.controller.setInverted(inverted);
     }
 
     @Override
@@ -92,12 +75,6 @@ public abstract class SparkController implements SwerveMotor {
 
     @Override
     public boolean getInverted() {
-        return inverted;
-    }
-
-    @Override
-    public void setInverted(boolean inverted) {
-        this.inverted = inverted;
-        controller.setInverted(inverted);
+        return controller.getInverted();
     }
 }

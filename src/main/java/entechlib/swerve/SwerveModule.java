@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import entechlib.swerve.config.ModuleConfig;
-import entechlib.swerve.config.SwerveConfig;
+import entechlib.swerve.config.SwerveHardwareConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
 import entechlib.swerve.motors.SwerveMotor;
 
@@ -27,13 +27,13 @@ public class SwerveModule {
      * Constructs a SwerveModule and configures the driving and turning motor,
      * encoder, and PID controller.
      */
-    public SwerveModule(SwerveConfig config, ModuleConfig moduleConfig) {
-        drivingMotor = ConfigConstructionUtil.getTurningMotor(config, moduleConfig.getTurningMotorID(),
+    public SwerveModule(SwerveHardwareConfig config, ModuleConfig moduleConfig) {
+        drivingMotor = ConfigConstructionUtil.getMotor(config.getDrivingMotorConfig(), moduleConfig.getDriveMotorID(),
                         moduleConfig.getTurningMotorInverted());
-        turningMotor = ConfigConstructionUtil.getDrivingMotor(config, moduleConfig.getTurningMotorID(),
-                        moduleConfig.getDrivingMotorInverted());
+        turningMotor = ConfigConstructionUtil.getMotor(config.getTurningMotorConfig(), moduleConfig.getTurningMotorID(),
+                        moduleConfig.getTurningMotorInverted());
 
-        turningAbsoluteEncoder = ConfigConstructionUtil.getAbsoluteEncoder(config,
+        turningAbsoluteEncoder = ConfigConstructionUtil.getAbsoluteEncoder(config.getEncoderType(),
                         moduleConfig.getAbsoluteEncoderID(), moduleConfig.getEncoderOffsetRadians());
 
         desiredState.angle = new Rotation2d(turningAbsoluteEncoder.getPosition());
@@ -103,6 +103,11 @@ public class SwerveModule {
                                                                                 // position
     }
 
+    /**
+     * Returns the current desired state of the module.
+     * 
+     * @return The desired state of the module.
+     */
     public SwerveModuleState getDesiredState() {
         return desiredState;
     }

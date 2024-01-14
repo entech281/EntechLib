@@ -6,25 +6,12 @@ package entechlib.swerve.config;
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public class ModuleConfig {
-    private final int turningMotorID;
-    private final int driveMotorID;
-    private final int absoluteEncoderID;
+    private int turningMotorID;
+    private int driveMotorID;
+    private int absoluteEncoderID;
     private double encoderOffsetRadians = 0;
     private boolean drivingMotorInverted = false;
     private boolean turningMotorInverted = true;
-
-    /**
-     * @param turningMotorID
-     * @param driveMotorID
-     * @param absoluteEncoderID use the analog port instead of canbus id if
-     *                          needed.
-     */
-    public ModuleConfig(int turningMotorID,
-            int driveMotorID, int absoluteEncoderID) {
-        this.turningMotorID = turningMotorID;
-        this.driveMotorID = driveMotorID;
-        this.absoluteEncoderID = absoluteEncoderID;
-    }
 
     public int getTurningMotorID() {
         return this.turningMotorID;
@@ -36,6 +23,18 @@ public class ModuleConfig {
 
     public int getAbsoluteEncoderID() {
         return this.absoluteEncoderID;
+    }
+
+    public void setTurningMotorID(int turningMotorID) {
+        this.turningMotorID = turningMotorID;
+    }
+
+    public void setDriveMotorID(int driveMotorID) {
+        this.driveMotorID = driveMotorID;
+    }
+
+    public void setAbsoluteEncoderID(int absoluteEncoderID) {
+        this.absoluteEncoderID = absoluteEncoderID;
     }
 
     public double getEncoderOffsetRadians() {

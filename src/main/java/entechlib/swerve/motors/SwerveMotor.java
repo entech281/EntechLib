@@ -1,7 +1,5 @@
 package entechlib.swerve.motors;
 
-import entechlib.swerve.ConfigConstructionUtil.ControlType;
-
 /**
  * Basic interface for swerve motor for turning or driving.
  * 
@@ -10,65 +8,47 @@ import entechlib.swerve.ConfigConstructionUtil.ControlType;
  */
 public interface SwerveMotor {
     /**
-     * Set the values for the pid controller.
+     * Set speed in terms of power percent.
      * 
      * 
-     * @param p
-     * @param i
-     * @param d
-     * @param ff
+     * @param speed As a percent of full power.
      */
-    void setPID(double p, double i, double d, double ff);
-
-    /**
-     * Set the method for controlling the motor with the pid.
-     * 
-     * 
-     * @param control method
-     */
-    void setControlMethod(ControlType control);
-
-    /**
-     * Set the current limit for the motor.
-     * 
-     * 
-     * @param limit
-     */
-    void setCurrentLimit(int limit);
-
-    /**
-     * Complete the configuration of the motor, not always necessary but highly
-     * recommended to save settings after brownouts.
-     */
-    void completeConfigure();
-
-    /**
-     * Set the ratio of turns on the motors output to its start.
-     * 
-     * 
-     * @param positionConversionFactor
-     */
-    void setPositionConversionFactor(double positionConversionFactor);
-
-    /**
-     * Set the ratio of velocity on the motors output to its start.
-     * 
-     * 
-     * @param positionConversionFactor
-     */
-    void setVelocityConversionFactor(double positionConversionFactor);
-
     void set(double speed);
 
+    /**
+     * Sets the desired position in term of the relative encoder with the conversion factor.
+     * 
+     * 
+     * @param position In terms of relative encoder with the conversion factor.
+     */
     void setPosition(double position);
 
+    /**
+     * Returns the current position in relation to the relative encoder with the conversion factor.
+     * 
+     * 
+     * @return Relative encoder value with the conversion factor.
+     */
     double getPosition();
 
+    /**
+     * Returns the velocity in RPM.
+     * 
+     * 
+     * @return RPM of the motor.
+     */
     double getVelocity();
 
+    /**
+     * Sets the reference in terms of either RPM or Rotations depending on control mode.
+     * 
+     * 
+     * @param value Either RPM or Rotations.
+     */
     void setReference(double value);
 
+    /**
+     * @return If the motor is inverted.
+     */
     boolean getInverted();
-
-    void setInverted(boolean inverted);
 }

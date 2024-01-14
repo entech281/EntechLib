@@ -57,7 +57,6 @@ public class SwerveConfig {
     private double driveProportional = 0.04;
     private double turningProportional = 1.0;
     private double driveFeedForward = 1 / (((wheelDiameterMeters * Math.PI) * driveMotorFreeRPS) / driveMotorReduction);
-    private AutoConfig autoConfig;
 
     private double gyroOffset = 0.0;
     private double driveBaseRadius = 0.39;
@@ -91,14 +90,6 @@ public class SwerveConfig {
                 new Translation2d(wheelBaseMeters / 2, -trackWidthMeters / 2),
                 new Translation2d(-wheelBaseMeters / 2, trackWidthMeters / 2),
                 new Translation2d(-wheelBaseMeters / 2, -trackWidthMeters / 2));
-    }
-
-    public AutoConfig getAutoConfig() {
-        return this.autoConfig;
-    }
-
-    public void setAutoConfig(AutoConfig autoConfig) {
-        this.autoConfig = autoConfig;
     }
 
     public boolean isRateLimiting() {

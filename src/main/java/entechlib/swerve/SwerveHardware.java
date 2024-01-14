@@ -5,7 +5,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import entechlib.swerve.config.SwerveConfig;
+import entechlib.swerve.config.SwerveHardwareConfig;
 import entechlib.swerve.imus.SwerveIMU;
 
 public class SwerveHardware {
@@ -19,7 +19,7 @@ public class SwerveHardware {
     private final boolean gyroInverted;
     private final double gyroOffset;
 
-    public SwerveHardware(SwerveConfig config) {
+    public SwerveHardware(SwerveHardwareConfig config) {
         gyroInverted = config.getGyroInverted();
         gyroOffset = config.getGyroOffset();
 
@@ -69,6 +69,11 @@ public class SwerveHardware {
         rearRight.resetEncoders();
     }
 
+    /**
+     * Set each modules desired state in the following order: front left, front right, rear left, rear right.
+     * 
+     * @param states The desired module states in
+     */
     public void setModuleStates(SwerveModuleState[] states) {
         frontLeft.setDesiredState(states[0]);
         frontRight.setDesiredState(states[1]);
