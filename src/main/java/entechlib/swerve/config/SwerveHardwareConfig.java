@@ -15,8 +15,17 @@ public class SwerveHardwareConfig {
     private IMUType gyroType;
     private boolean gyroInverted;
     private double gyroOffset;
+    private int gyroID;
 
     private AbsoluteEncoderType encoderType;
+
+    public int getGyroID() {
+        return this.gyroID;
+    }
+
+    public void setGyroID(int gyroID) {
+        this.gyroID = gyroID;
+    }
 
     public MotorConfig getTurningMotorConfig() {
         return this.turningMotor;

@@ -11,7 +11,7 @@ public class ModuleConfig {
     private int absoluteEncoderID;
     private double encoderOffsetRadians = 0;
     private boolean drivingMotorInverted = false;
-    private boolean turningMotorInverted = true;
+    private boolean turningMotorInverted = false;
 
     public int getTurningMotorID() {
         return this.turningMotorID;

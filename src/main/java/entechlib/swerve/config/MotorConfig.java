@@ -4,10 +4,10 @@ import entechlib.swerve.ConfigConstructionUtil.ControlType;
 import entechlib.swerve.ConfigConstructionUtil.MotorType;
 
 public class MotorConfig {
-    private double kP;
-    private double kI;
-    private double kD;
-    private double kFF;
+    private double kP = 0.0;
+    private double kI = 0.0;
+    private double kD = 0.0;
+    private double kFF = 0.0;
     private int currentLimit;
     private double positionConversionFactor;
     private double velocityConversionFactor;
