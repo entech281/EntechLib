@@ -24,13 +24,13 @@ public class SwerveModule {
     private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
     /**
-     * Constructs a SwerveModule and configures the driving and turning motor,
-     * encoder, and PID controller.
+     * Constructs a SwerveModule and configures the driving and turning motors and
+     * encoder.
      */
     public SwerveModule(SwerveHardwareConfig config, ModuleConfig moduleConfig) {
-        drivingMotor = ConfigConstructionUtil.getMotor(config.getDrivingMotorConfig(), moduleConfig.getDriveMotorID(),
+        drivingMotor = ConfigConstructionUtil.getMotor(config.drivingMotorConfig, moduleConfig.getDriveMotorID(),
                         moduleConfig.getTurningMotorInverted());
-        turningMotor = ConfigConstructionUtil.getMotor(config.getTurningMotorConfig(), moduleConfig.getTurningMotorID(),
+        turningMotor = ConfigConstructionUtil.getMotor(config.turningMotorConfig, moduleConfig.getTurningMotorID(),
                         moduleConfig.getTurningMotorInverted());
 
         turningAbsoluteEncoder = ConfigConstructionUtil.getAbsoluteEncoder(config.getEncoderType(),

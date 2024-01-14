@@ -1,5 +1,7 @@
 package entechlib.swerve.config;
 
+import com.pathplanner.lib.util.PIDConstants;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import entechlib.swerve.ConfigConstructionUtil.AbsoluteEncoderType;
@@ -12,11 +14,15 @@ public class SwerveConfigBuilder {
     }
 
     public interface MechanicalBuilder {
-        ElectricalBuilder withHardware(double motorFreeSpeed, double driveMotorReduction, double turningMotorReduction, double wheelDiameterMeters);
+        ComponentsBuilder withHardware(double driveMotorFreeSpeed, double driveMotorReduction, double turningMotorReduction, double wheelDiameterMeters);
     }
 
-    public interface ElectricalBuilder {
-        IMUBuilder withComponents(MotorType drivingType, MotorType turningType, AbsoluteEncoderType encoderType);
+    public interface ComponentsBuilder {
+        CurrentLimitBuilder withComponents(MotorType drivingType, MotorType turningType, AbsoluteEncoderType encoderType);
+    }
+
+    public interface CurrentLimitBuilder {
+        IMUBuilder withCurrentLimits(int driveMotorCurrentLimit, int turningMotorCurrentLimit);
     }
 
     public interface IMUBuilder {
@@ -24,7 +30,7 @@ public class SwerveConfigBuilder {
     }
 
     public interface KinematicsBuilder {
-        RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters);
+        RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters, double driveBaseRadiusMeters);
     }
 
     public interface RateLimitingBuilder {
@@ -33,54 +39,98 @@ public class SwerveConfigBuilder {
     }
 
     public interface MaxSpeedBuilder {
-        void withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond);
+        TurningMotorPIDBuilder withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond);
     }
 
-    public class Builder implements MechanicalBuilder, ElectricalBuilder, IMUBuilder, KinematicsBuilder, RateLimitingBuilder, MaxSpeedBuilder {
+    public interface TurningMotorPIDBuilder {
+        DriveMotorPIDBuilder withTurningMotorPID(double p, double i, double d);
+    }
+
+    public interface DriveMotorPIDBuilder {
+        AutoTranslationPIDBuilder withDriveMotorPID(double p, double i, double d);
+    }
+
+    public interface AutoTranslationPIDBuilder {
+        AutoRotationPIDBuilder withAutoTranslationPID(double p, double i, double d);
+    }
+
+    public interface AutoRotationPIDBuilder {
+        FrontLeftBuilder withAutoRotationPID(double p, double i, double d);
+    }
+
+    public interface FrontLeftBuilder {
+        FrontRightBuilder withFrontLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
+    }
+
+    public interface FrontRightBuilder {
+        RearLeftBuilder withFrontRightModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
+    }
+
+    public interface RearLeftBuilder {
+        RearRightBuilder withRearLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
+    }
+
+    public interface RearRightBuilder {
+        ConfigCompleteBuilder withRearRightModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
+    }
+
+    public interface ConfigCompleteBuilder {
+        TempSwerveConfig getConfig();
+    }
+
+    public class Builder implements MechanicalBuilder, ComponentsBuilder, IMUBuilder, KinematicsBuilder, RateLimitingBuilder, MaxSpeedBuilder, CurrentLimitBuilder, TurningMotorPIDBuilder, DriveMotorPIDBuilder, AutoTranslationPIDBuilder, AutoRotationPIDBuilder, FrontLeftBuilder, FrontRightBuilder, RearLeftBuilder, RearRightBuilder, ConfigCompleteBuilder {
         private final TempSwerveConfig config = new TempSwerveConfig();
 
         @Override
-        public ElectricalBuilder withHardware(double motorFreeSpeed, double driveMotorReduction, double turningMotorReduction,
+        public ComponentsBuilder withHardware(double driveMotorFreeSpeed, double driveMotorReduction, double turningMotorReduction,
                 double wheelDiameterMeters) {
             double drivingPositionConversionMetersPerRotation = (wheelDiameterMeters * Math.PI) / driveMotorReduction;
-            config.getHardwareConfig().getDrivingMotorConfig().setPositionConversionFactor(drivingPositionConversionMetersPerRotation);
+            config.hardwareConfig.drivingMotorConfig.setPositionConversionFactor(drivingPositionConversionMetersPerRotation);
 
             double drivingVelocityConversionMetersPerSecondPerRPM = ((wheelDiameterMeters * Math.PI)
                     / driveMotorReduction) / 60;
-            config.getHardwareConfig().getDrivingMotorConfig().setVelocityConversionFactor(drivingVelocityConversionMetersPerSecondPerRPM);
+            config.hardwareConfig.drivingMotorConfig.setVelocityConversionFactor(drivingVelocityConversionMetersPerSecondPerRPM);
     
             double turningPositionConversionRadiansPerRotation = (2 * Math.PI) / turningMotorReduction;
-            config.getHardwareConfig().getTurningMotorConfig().setPositionConversionFactor(turningPositionConversionRadiansPerRotation);
+            config.hardwareConfig.turningMotorConfig.setPositionConversionFactor(turningPositionConversionRadiansPerRotation);
     
             double turningVelocityConversionRadiansPerSecondPerRPM = (2 * Math.PI) / turningMotorReduction / 60;
-            config.getHardwareConfig().getTurningMotorConfig().setVelocityConversionFactor(turningVelocityConversionRadiansPerSecondPerRPM);
+            config.hardwareConfig.turningMotorConfig.setVelocityConversionFactor(turningVelocityConversionRadiansPerSecondPerRPM);
     
-            double driveFF = 1 / (((wheelDiameterMeters * Math.PI) * motorFreeSpeed) / driveMotorReduction);
-            config.getHardwareConfig().getDrivingMotorConfig().setFF(driveFF);
+            double driveFF = 1 / (((wheelDiameterMeters * Math.PI) * driveMotorFreeSpeed) / driveMotorReduction);
+            config.hardwareConfig.drivingMotorConfig.setFF(driveFF);
             
             return this;
         }
 
         @Override
-        public IMUBuilder withComponents(MotorType drivingType, MotorType turningType, AbsoluteEncoderType encoderType) {
-            config.getHardwareConfig().getDrivingMotorConfig().setMotorType(drivingType);
-            config.getHardwareConfig().getTurningMotorConfig().setMotorType(turningType);
-            config.getHardwareConfig().setEncoderType(encoderType);
+        public CurrentLimitBuilder withComponents(MotorType drivingType, MotorType turningType, AbsoluteEncoderType encoderType) {
+            config.hardwareConfig.drivingMotorConfig.setMotorType(drivingType);
+            config.hardwareConfig.turningMotorConfig.setMotorType(turningType);
+            config.hardwareConfig.setEncoderType(encoderType);
+            return this;
+        }
+
+        @Override
+        public IMUBuilder withCurrentLimits(int driveMotorCurrentLimit, int turningMotorCurrentLimit) {
+            config.hardwareConfig.drivingMotorConfig.setCurrentLimit(driveMotorCurrentLimit);
+            config.hardwareConfig.turningMotorConfig.setCurrentLimit(turningMotorCurrentLimit);
             return this;
         }
 
         @Override
         public KinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted) {
-            config.getHardwareConfig().setGyroType(type);
-            config.getHardwareConfig().setGyroOffset(offset);
-            config.getHardwareConfig().setGyroInverted(inverted);
-            config.getHardwareConfig().setGyroID(id);
+            config.hardwareConfig.setGyroType(type);
+            config.hardwareConfig.setGyroOffset(offset);
+            config.hardwareConfig.setGyroInverted(inverted);
+            config.hardwareConfig.setGyroID(id);
             return this;
         }
 
         @Override
-        public RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters) {
-            config.getControllerConfig().setKinematics(new SwerveDriveKinematics(
+        public RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters, double driveBaseRadiusMeters) {
+            config.controllerConfig.setDriveBaseRadius(driveBaseRadiusMeters);
+            config.controllerConfig.setKinematics(new SwerveDriveKinematics(
                 new Translation2d(wheelBaseMeters / 2, trackWidthMeters / 2),
                 new Translation2d(wheelBaseMeters / 2, -trackWidthMeters / 2),
                 new Translation2d(-wheelBaseMeters / 2, trackWidthMeters / 2),
@@ -91,20 +141,92 @@ public class SwerveConfigBuilder {
         @Override
         public MaxSpeedBuilder withRateLimiting(double directionalSlewRate, double magnitudeSlewRate,
                 double rotationalSlewRate) {
-            config.getControllerConfig().setRateLimiterConfig(new RateLimiterConfig(directionalSlewRate, magnitudeSlewRate, rotationalSlewRate));
+            config.controllerConfig.setRateLimiterConfig(new RateLimiterConfig(directionalSlewRate, magnitudeSlewRate, rotationalSlewRate));
             return this;
         }
 
         @Override
         public MaxSpeedBuilder withoutRateLimiting() {
-            config.getControllerConfig().setRateLimiterConfig(null);
+            config.controllerConfig.setRateLimiterConfig(null);
             return this;
         }
 
         @Override
-        public void withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond) {
-            config.getControllerConfig().setMaxSpeedMetersPerSecond(maxMetersPerSecond);
-            config.getControllerConfig().setMaxAngularSpeedRadiansPerSecond(maxAngularRadiansPerSecond);
+        public TurningMotorPIDBuilder withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond) {
+            config.controllerConfig.setMaxSpeedMetersPerSecond(maxMetersPerSecond);
+            config.controllerConfig.setMaxAngularSpeedRadiansPerSecond(maxAngularRadiansPerSecond);
+            return this;
+        }
+
+        @Override
+        public DriveMotorPIDBuilder withTurningMotorPID(double p, double i, double d) {
+            config.hardwareConfig.turningMotorConfig.setPID(p, i, d);
+            return this;
+        }
+
+        @Override
+        public AutoTranslationPIDBuilder withDriveMotorPID(double p, double i, double d) {
+            config.hardwareConfig.drivingMotorConfig.setPID(p, i, d);
+            return this;
+        }
+
+        @Override
+        public AutoRotationPIDBuilder withAutoTranslationPID(double p, double i, double d) {
+            config.controllerConfig.setTranslationController(new PIDConstants(p, i, d));
+            return this;
+        }
+
+        @Override
+        public FrontLeftBuilder withAutoRotationPID(double p, double i, double d) {
+            config.controllerConfig.setRotationController(new PIDConstants(p, i, d));
+            return this;
+        }
+
+        private void ModuleConfigHelper(ModuleConfig module, int driveMotorID, int turningMotorID,
+                int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
+                boolean turningMotorInverted) {
+            module.setDriveMotorID(driveMotorID);
+            module.setTurningMotorID(turningMotorID);
+            module.setAbsoluteEncoderID(absoluteEncoderID);
+            module.setEncoderOffsetRadians(absoluteEncoderOffsetRadians);
+            module.setDrivingMotorInverted(driveMotorInverted);
+            module.setTurningMotorInverted(turningMotorInverted);
+        }
+
+        @Override
+        public FrontRightBuilder withFrontLeftModuleConstants(int driveMotorID, int turningMotorID,
+                int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
+                boolean turningMotorInverted) {
+            ModuleConfigHelper(config.hardwareConfig.frontLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            return this;
+        }
+
+        @Override
+        public RearLeftBuilder withFrontRightModuleConstants(int driveMotorID, int turningMotorID,
+                int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
+                boolean turningMotorInverted) {
+            ModuleConfigHelper(config.hardwareConfig.frontRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            return this;
+        }
+
+        @Override
+        public RearRightBuilder withRearLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID,
+                double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted) {
+            ModuleConfigHelper(config.hardwareConfig.rearLeftConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            return this;
+        }
+
+        @Override
+        public ConfigCompleteBuilder withRearRightModuleConstants(int driveMotorID, int turningMotorID,
+                int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted,
+                boolean turningMotorInverted) {
+            ModuleConfigHelper(config.hardwareConfig.rearRightConfig, driveMotorID, turningMotorID, absoluteEncoderID, absoluteEncoderOffsetRadians, driveMotorInverted, turningMotorInverted);
+            return this;
+        }
+
+        @Override
+        public TempSwerveConfig getConfig() {
+            return config;
         }
     }
 }

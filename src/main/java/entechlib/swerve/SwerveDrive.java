@@ -35,8 +35,8 @@ public class SwerveDrive {
      * @param driveSubsystem drive subsystem for autonomous
      */
     public SwerveDrive(TempSwerveConfig swerveConfig, Subsystem driveSubsystem) {
-        hardware = new SwerveHardware(swerveConfig.getHardwareConfig());
-        controller = new SwerveController(swerveConfig.getControllerConfig(), hardware.getModuleStates(), getHeading());
+        hardware = new SwerveHardware(swerveConfig.hardwareConfig);
+        controller = new SwerveController(swerveConfig.controllerConfig, hardware.getModuleStates(), getHeading());
 
         AutoBuilder.configureHolonomic(
                 controller::getPose, // Robot pose supplier
@@ -44,10 +44,10 @@ public class SwerveDrive {
                 hardware::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::autonomousDrive,
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        swerveConfig.getControllerConfig().getTranslationController(),
-                        swerveConfig.getControllerConfig().getRotationController(),
-                        swerveConfig.getControllerConfig().getMaxSpeedMetersPerSecond(),
-                        swerveConfig.getControllerConfig().getDriveBaseRadius(),
+                        swerveConfig.controllerConfig.getTranslationController(),
+                        swerveConfig.controllerConfig.getRotationController(),
+                        swerveConfig.controllerConfig.getMaxSpeedMetersPerSecond(),
+                        swerveConfig.controllerConfig.getDriveBaseRadius(),
                         new ReplanningConfig()
                 ),
                 () -> {

@@ -14,6 +14,12 @@ public class MotorConfig {
     private ControlType controlMethod;
     private MotorType motorType;
 
+    public void setPID(double p, double i, double d) {
+        kP = p;
+        kI = i;
+        kD = d;
+    }
+
     public double getP() {
         return this.kP;
     }

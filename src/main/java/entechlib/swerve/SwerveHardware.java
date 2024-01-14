@@ -27,10 +27,10 @@ public class SwerveHardware {
         zeroHeading();
         resetEncoders();
 
-        frontLeft = new SwerveModule(config, config.getFrontLeft());
-        frontRight = new SwerveModule(config, config.getFrontRight());
-        rearLeft = new SwerveModule(config, config.getRearLeft());
-        rearRight = new SwerveModule(config, config.getRearRight());
+        frontLeft = new SwerveModule(config, config.frontLeftConfig);
+        frontRight = new SwerveModule(config, config.frontRightConfig);
+        rearLeft = new SwerveModule(config, config.rearLeftConfig);
+        rearRight = new SwerveModule(config, config.rearRightConfig);
     }
 
     /**

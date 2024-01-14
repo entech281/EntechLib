@@ -1,16 +1,17 @@
 package entechlib.swerve.config;
 
 import entechlib.swerve.ConfigConstructionUtil.AbsoluteEncoderType;
+import entechlib.swerve.ConfigConstructionUtil.ControlType;
 import entechlib.swerve.ConfigConstructionUtil.IMUType;
 
 public class SwerveHardwareConfig {
-    private MotorConfig turningMotor = new MotorConfig();
-    private MotorConfig drivingMotor = new MotorConfig();
+    public final MotorConfig turningMotorConfig = new MotorConfig();
+    public final MotorConfig drivingMotorConfig = new MotorConfig();
 
-    private ModuleConfig frontLeft = new ModuleConfig();
-    private ModuleConfig frontRight = new ModuleConfig();
-    private ModuleConfig rearLeft = new ModuleConfig();
-    private ModuleConfig rearRight = new ModuleConfig();
+    public final ModuleConfig frontLeftConfig = new ModuleConfig();
+    public final ModuleConfig frontRightConfig = new ModuleConfig();
+    public final ModuleConfig rearLeftConfig = new ModuleConfig();
+    public final ModuleConfig rearRightConfig = new ModuleConfig();
 
     private IMUType gyroType;
     private boolean gyroInverted;
@@ -19,60 +20,17 @@ public class SwerveHardwareConfig {
 
     private AbsoluteEncoderType encoderType;
 
+    public SwerveHardwareConfig() {
+        turningMotorConfig.setControlMethod(ControlType.POSITION);
+        drivingMotorConfig.setControlMethod(ControlType.VELOCITY);
+    }
+
     public int getGyroID() {
         return this.gyroID;
     }
 
     public void setGyroID(int gyroID) {
         this.gyroID = gyroID;
-    }
-
-    public MotorConfig getTurningMotorConfig() {
-        return this.turningMotor;
-    }
-
-    public void setTurningMotorConfig(MotorConfig turningMotor) {
-        this.turningMotor = turningMotor;
-    }
-
-    public MotorConfig getDrivingMotorConfig() {
-        return this.drivingMotor;
-    }
-
-    public void setDrivingMotorConfig(MotorConfig drivingMotor) {
-        this.drivingMotor = drivingMotor;
-    }
-
-    public ModuleConfig getFrontLeft() {
-        return this.frontLeft;
-    }
-
-    public void setFrontLeft(ModuleConfig frontLeft) {
-        this.frontLeft = frontLeft;
-    }
-
-    public ModuleConfig getFrontRight() {
-        return this.frontRight;
-    }
-
-    public void setFrontRight(ModuleConfig frontRight) {
-        this.frontRight = frontRight;
-    }
-
-    public ModuleConfig getRearLeft() {
-        return this.rearLeft;
-    }
-
-    public void setRearLeft(ModuleConfig rearLeft) {
-        this.rearLeft = rearLeft;
-    }
-
-    public ModuleConfig getRearRight() {
-        return this.rearRight;
-    }
-
-    public void setRearRight(ModuleConfig rearRight) {
-        this.rearRight = rearRight;
     }
 
     public IMUType getGyroType() {
