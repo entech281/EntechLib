@@ -18,6 +18,6 @@ public class NavxUSB extends NavxGyro {
      * @param usbPort either 1 or 2 (anything else defaults to 1)
      */
     public NavxUSB(int usbPort) {
-        super(new AHRS(usbPort == 1 ? Port.kUSB1 : (usbPort == 2 ? Port.kUSB2 : Port.kUSB)));
+        super(new AHRS(usbPort == 2 ? Port.kUSB2 : Port.kUSB1));
     }
 }

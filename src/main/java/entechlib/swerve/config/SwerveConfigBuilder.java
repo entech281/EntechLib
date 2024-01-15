@@ -19,68 +19,220 @@ public class SwerveConfigBuilder {
         return new Builder();
     }
 
+    /** Configure the basic module hardware  */
     public interface MechanicalBuilder {
+        /**
+         * Set the basic mechanical properties of the swerve modules.
+         * 
+         * 
+         * @param driveMotorFreeSpeed The free speed of the drive motor.
+         * @param driveMotorReduction The reduction of the drive motor to you wheel.
+         * @param turningMotorReduction The reduction of the turning motor to the rotation of the wheel.
+         * @param wheelDiameterMeters The diameter of the wheel in meters.
+         */
         ComponentsBuilder withHardware(double driveMotorFreeSpeed, double driveMotorReduction, double turningMotorReduction, double wheelDiameterMeters);
     }
 
+    /** Configure the component types used. */
     public interface ComponentsBuilder {
+        /**
+         * Set the types of components used on the swerve modules.
+         * 
+         * 
+         * @param drivingType The type of driving motor.
+         * @param turningType The type of turning motor.
+         * @param encoderType The type of absolute encoder.
+         */
         CurrentLimitBuilder withComponents(MotorType drivingType, MotorType turningType, AbsoluteEncoderType encoderType);
     }
 
+    /** Configure the current limits. */
     public interface CurrentLimitBuilder {
+        /**
+         * Set the current limits of the motors.
+         * 
+         * 
+         * @param driveMotorCurrentLimit The drive motor current limit.
+         * @param turningMotorCurrentLimit The turning motor current limit.
+         */
         IMUBuilder withCurrentLimits(int driveMotorCurrentLimit, int turningMotorCurrentLimit);
     }
 
+    /** Configure the IMU. */
     public interface IMUBuilder {
+        /**
+         * Set the type and properties of the IMU on the robot.
+         * 
+         * 
+         * @param type The type of IMU.
+         * @param id The ID of the IMU. (analog port, usb port, can, or 0 if it's a MXP port IMU)
+         * @param offset The offset of the IMU from forward heading.
+         * @param inverted If the IMU is inverted.
+         */
         KinematicsBuilder withIMU(IMUType type, int id, double offset, boolean inverted);
     }
 
+    /** Configure the size of the robot. */
     public interface KinematicsBuilder {
+        /**
+         * Set the size of the robot for module state calculations and odometry.
+         * 
+         * 
+         * @param wheelBaseMeters If the wheels are facing forward, the distance between the center of both left or bot right wheels in meters.
+         * @param trackWidthMeters If the wheels are facing forward, the distance between the center of the grip of the both rear or front wheels in meters.
+         * @param driveBaseRadiusMeters The distance from the center of the robot to the center of the farthest module in meters.
+         */
         RateLimitingBuilder withDimensions(double wheelBaseMeters, double trackWidthMeters, double driveBaseRadiusMeters);
     }
 
+    /** Configure rate limiting. */
     public interface RateLimitingBuilder {
+        /**
+         * Limit the rate of acceleration with the given rates.
+         * 
+         * 
+         * @param directionalSlewRate
+         * @param magnitudeSlewRate
+         * @param rotationalSlewRate
+         */
         MaxSpeedBuilder withRateLimiting(double directionalSlewRate, double magnitudeSlewRate, double rotationalSlewRate);
+        /**
+         * No rate limiting.
+         */
         MaxSpeedBuilder withoutRateLimiting();
     }
 
+    /** Configure the max speed of the robot. */
     public interface MaxSpeedBuilder {
+        /**
+         * Configure the max speeds of the robot.
+         * 
+         * 
+         * @param maxMetersPerSecond The max speed of the robot in meters per second.
+         * @param maxAngularRadiansPerSecond The max angular speed of the robot in radians per second.
+         */
         TurningMotorPIDBuilder withMaxSpeeds(double maxMetersPerSecond, double maxAngularRadiansPerSecond);
     }
 
+    /** Configure the turning motors PID controller. */
     public interface TurningMotorPIDBuilder {
+        /**
+         * Configure the pid values for the turning motors PID controller.
+         * 
+         * 
+         * @param p
+         * @param i
+         * @param d
+         */
         DriveMotorPIDBuilder withTurningMotorPID(double p, double i, double d);
     }
 
+    /** Configure the drive motors PID controller. */
     public interface DriveMotorPIDBuilder {
+        /**
+         * Configure the pid values for the drive motors PID controller.
+         * 
+         * 
+         * @param p
+         * @param i
+         * @param d
+         */
         AutoTranslationPIDBuilder withDriveMotorPID(double p, double i, double d);
     }
 
+    /** Configure the autonomous translation PID controller. */
     public interface AutoTranslationPIDBuilder {
+        /**
+         * Configure the pid values for the autonomous translation PID controller.
+         * 
+         * 
+         * @param p
+         * @param i
+         * @param d
+         */
         AutoRotationPIDBuilder withAutoTranslationPID(double p, double i, double d);
     }
 
+    /** Configure the autonomous rotation PID controller. */
     public interface AutoRotationPIDBuilder {
+        /**
+         * Configure the pid values for the autonomous rotation PID controller.
+         * 
+         * 
+         * @param p
+         * @param i
+         * @param d
+         */
         FrontLeftBuilder withAutoRotationPID(double p, double i, double d);
     }
 
+    /** Configure the front left swerve module. */
     public interface FrontLeftBuilder {
+        /**
+         * Configure the front left swerve module IDs and basic settings.
+         * 
+         * 
+         * @param driveMotorID Front left drive motor ID.
+         * @param turningMotorID Front left turning motor ID.
+         * @param absoluteEncoderID Front left absolute encoder ID.
+         * @param absoluteEncoderOffsetRadians Front left absolute encoder offset.
+         * @param driveMotorInverted Front left drive motor inverted.
+         * @param turningMotorInverted Front left turning motor inverted.
+         */
         FrontRightBuilder withFrontLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
     }
 
+    /** Configure the front right swerve module. */
     public interface FrontRightBuilder {
+        /**
+         * Configure the front right swerve module IDs and basic settings.
+         * 
+         * 
+         * @param driveMotorID Front right drive motor ID.
+         * @param turningMotorID Front right turning motor ID.
+         * @param absoluteEncoderID Front right absolute encoder ID.
+         * @param absoluteEncoderOffsetRadians Front right absolute encoder offset.
+         * @param driveMotorInverted Front right drive motor inverted.
+         * @param turningMotorInverted Front right turning motor inverted.
+         */
         RearLeftBuilder withFrontRightModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
     }
 
+    /** Configure the rear left swerve module. */
     public interface RearLeftBuilder {
+        /**
+         * Configure the rear left swerve module IDs and basic settings.
+         * 
+         * 
+         * @param driveMotorID Rear left drive motor ID.
+         * @param turningMotorID Rear left turning motor ID.
+         * @param absoluteEncoderID Rear left absolute encoder ID.
+         * @param absoluteEncoderOffsetRadians Rear left absolute encoder offset.
+         * @param driveMotorInverted Rear left drive motor inverted.
+         * @param turningMotorInverted Rear left turning motor inverted.
+         */
         RearRightBuilder withRearLeftModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
     }
 
+    /** Configure the rear right swerve module. */
     public interface RearRightBuilder {
+        /**
+         * Configure the rear right swerve module IDs and basic settings.
+         * 
+         * 
+         * @param driveMotorID Rear right drive motor ID.
+         * @param turningMotorID Rear right turning motor ID.
+         * @param absoluteEncoderID Rear right absolute encoder ID.
+         * @param absoluteEncoderOffsetRadians Rear right absolute encoder offset.
+         * @param driveMotorInverted Rear right drive motor inverted.
+         * @param turningMotorInverted Rear right turning motor inverted.
+         */
         ConfigCompleteBuilder withRearRightModuleConstants(int driveMotorID, int turningMotorID, int absoluteEncoderID, double absoluteEncoderOffsetRadians, boolean driveMotorInverted, boolean turningMotorInverted);
     }
 
+    /** The configuration is complete and you can now get the config object. */
     public interface ConfigCompleteBuilder {
+        /** @return The completed config object. */
         SwerveConfig getConfig();
     }
 
