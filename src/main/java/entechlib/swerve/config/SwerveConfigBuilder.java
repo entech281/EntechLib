@@ -8,6 +8,12 @@ import entechlib.swerve.ConfigConstructionUtil.AbsoluteEncoderType;
 import entechlib.swerve.ConfigConstructionUtil.IMUType;
 import entechlib.swerve.ConfigConstructionUtil.MotorType;
 
+/**
+ * The {@link SwerveConfigBuilder} lets you configure a working swerve config file to ensure all parameters are set.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SwerveConfigBuilder {
     public MechanicalBuilder getBasicBuilder() {
         return new Builder();
@@ -75,11 +81,11 @@ public class SwerveConfigBuilder {
     }
 
     public interface ConfigCompleteBuilder {
-        TempSwerveConfig getConfig();
+        SwerveConfig getConfig();
     }
 
     public class Builder implements MechanicalBuilder, ComponentsBuilder, IMUBuilder, KinematicsBuilder, RateLimitingBuilder, MaxSpeedBuilder, CurrentLimitBuilder, TurningMotorPIDBuilder, DriveMotorPIDBuilder, AutoTranslationPIDBuilder, AutoRotationPIDBuilder, FrontLeftBuilder, FrontRightBuilder, RearLeftBuilder, RearRightBuilder, ConfigCompleteBuilder {
-        private final TempSwerveConfig config = new TempSwerveConfig();
+        private final SwerveConfig config = new SwerveConfig();
 
         @Override
         public ComponentsBuilder withHardware(double driveMotorFreeSpeed, double driveMotorReduction, double turningMotorReduction,
@@ -225,7 +231,7 @@ public class SwerveConfigBuilder {
         }
 
         @Override
-        public TempSwerveConfig getConfig() {
+        public SwerveConfig getConfig() {
             return config;
         }
     }

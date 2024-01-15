@@ -1,7 +1,7 @@
 package entechlib.swerve.encoders;
 
 /**
- * Basic abstract class for an absolute encoder for a swerve module.
+ * Basic abstract class of an absolute encoder for a swerve module.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
@@ -10,6 +10,9 @@ public abstract class AbsoluteEncoder {
     protected boolean inverted;
 	protected double positionOffset;
 
+    /**
+     * Sets the starting values for the encoder.
+     */
     protected AbsoluteEncoder() {
         this.inverted = false;
 		this.positionOffset = 0.0;

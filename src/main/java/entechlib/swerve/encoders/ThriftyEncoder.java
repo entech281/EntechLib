@@ -8,12 +8,17 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 
 /**
- * The {@code ThriftyEncoder} class contains fields and methods pertaining to
- * the function of the absolute encoder.
+ * The {@link ThriftyEncoder} class contains the interface for a Thrifty encoder to output on the guidelines of {@link AbsoluteEncoder}
  */
 public class ThriftyEncoder extends AbsoluteEncoder {
     private AnalogInput analogInput;
 
+    /**
+     * Creates a new {@link ThriftyEncoder} on the given analog port.
+     * 
+     * 
+     * @param port
+     */
     public ThriftyEncoder(int port) {
         this.analogInput = new AnalogInput(port);
     }

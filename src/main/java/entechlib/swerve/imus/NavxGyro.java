@@ -4,9 +4,21 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
+/**
+ * Base class for navx port configurations to use the {@code SwerveIMU} interface.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public abstract class NavxGyro implements SwerveIMU {
     private final AHRS navx;
 
+    /**
+     * Creates a new {@code NavxGyro} interface from the given navx.
+     * 
+     * 
+     * @param navx
+     */
     protected NavxGyro(AHRS navx) {
         this.navx = navx;
     }

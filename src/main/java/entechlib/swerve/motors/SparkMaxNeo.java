@@ -5,13 +5,22 @@ import com.revrobotics.CANSparkMax;
 
 import entechlib.swerve.config.MotorConfig;
 
+
 /**
- * A swerve motor for a swerve module, either turning or driving.
+ * Swerve motor for the neo motor with a spark max control.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public class SparkMaxNeo extends SparkController {
+    /**
+     * Creates and does configuration for the spark max control, neo motor, and internal encoder.
+     * 
+     * 
+     * @param id
+     * @param config
+     * @param inverted
+     */
     public SparkMaxNeo(int id, MotorConfig config, boolean inverted) {
         super(new CANSparkMax(id, MotorType.kBrushless), config, inverted);
     }

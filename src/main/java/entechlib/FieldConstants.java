@@ -1,6 +1,7 @@
 package entechlib;
 
 /**
+ * Basic field dimensions.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>

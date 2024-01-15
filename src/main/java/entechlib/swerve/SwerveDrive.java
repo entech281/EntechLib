@@ -16,10 +16,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import entechlib.input.DriveInput;
-import entechlib.swerve.config.TempSwerveConfig;
+import entechlib.swerve.config.SwerveConfig;
 
 /**
  * Swerve drive system, contains the cross logic and main interface for the swerve controller and hardware.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public class SwerveDrive {
     private final SwerveHardware hardware;
@@ -28,13 +31,13 @@ public class SwerveDrive {
     private final Field2d field = new Field2d();
 
     /**
-     * Create a new swerve drive system.
+     * Create a new swerve drive system and configures the path planner {@code AutoBuilder}.
      * 
      * 
      * @param swerveConfig config for setup
      * @param driveSubsystem drive subsystem for autonomous
      */
-    public SwerveDrive(TempSwerveConfig swerveConfig, Subsystem driveSubsystem) {
+    public SwerveDrive(SwerveConfig swerveConfig, Subsystem driveSubsystem) {
         hardware = new SwerveHardware(swerveConfig.hardwareConfig);
         controller = new SwerveController(swerveConfig.controllerConfig, hardware.getModuleStates(), getHeading());
 
@@ -67,9 +70,8 @@ public class SwerveDrive {
      * Periodic method for the swerve system. Updates odometry related systems. Needs to be ran every periodic loop.
      */
     public void periodic() {
-        field.setRobotPose(controller.getPose());
-
         controller.updateOdometry(hardware.getModuleStates(), hardware.getHeading());
+        field.setRobotPose(controller.getPose());
     }
 
     /**

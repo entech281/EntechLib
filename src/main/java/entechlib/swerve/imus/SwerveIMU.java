@@ -2,6 +2,12 @@ package entechlib.swerve.imus;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
+/**
+ * Basic interface for robot IMUs that are compatible with swerve system.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public interface SwerveIMU {
 
     /**

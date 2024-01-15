@@ -15,6 +15,8 @@ import entechlib.swerve.motors.SwerveMotor;
 /**
  * The {@code SwerveModule} class contains fields and methods pertaining to the
  * function of a swerve module.
+ * 
+ * Contains the motors, encoder, and control logic to run a swerve module.
  */
 public class SwerveModule {
     private final SwerveMotor drivingMotor;

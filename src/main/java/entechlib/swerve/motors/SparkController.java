@@ -1,18 +1,25 @@
 package entechlib.swerve.motors;
 
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import entechlib.swerve.ConfigConstructionUtil.ControlType;
+import entechlib.swerve.ConfigConstructionUtil.ControlMethod;
 import entechlib.swerve.config.MotorConfig;
 
+/**
+ * Base spark controller class for swerve motor interface.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public abstract class SparkController implements SwerveMotor {
     protected final CANSparkBase controller;
     protected final SparkPIDController pidController;
     protected final RelativeEncoder encoder;
-    protected final ControlType control;
+    protected final ControlMethod control;
 
     protected SparkController(CANSparkBase controller, MotorConfig config, boolean inverted) {
         this.controller = controller;
@@ -66,10 +73,10 @@ public abstract class SparkController implements SwerveMotor {
 
     @Override
     public void setReference(double value) {
-        if (control == ControlType.POSITION) {
-            pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kPosition);
+        if (control == ControlMethod.POSITION) {
+            pidController.setReference(value, ControlType.kPosition);
         } else {
-            pidController.setReference(value, com.revrobotics.CANSparkMax.ControlType.kVelocity);
+            pidController.setReference(value, ControlType.kVelocity);
         }
     }
 

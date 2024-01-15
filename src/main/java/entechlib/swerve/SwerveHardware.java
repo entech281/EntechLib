@@ -8,6 +8,12 @@ import edu.wpi.first.math.util.Units;
 import entechlib.swerve.config.SwerveHardwareConfig;
 import entechlib.swerve.imus.SwerveIMU;
 
+/**
+ * Part of a swerve drive system, contains the swerve modules and gyro.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SwerveHardware {
     private final SwerveModule frontLeft;
     private final SwerveModule frontRight;
@@ -72,6 +78,7 @@ public class SwerveHardware {
     /**
      * Set each modules desired state in the following order: front left, front right, rear left, rear right.
      * 
+     * 
      * @param states The desired module states in
      */
     public void setModuleStates(SwerveModuleState[] states) {
@@ -95,7 +102,8 @@ public class SwerveHardware {
 
     /**
      * Returns the heading of the robot.
-     *
+     * 
+     * 
      * @return the robot's heading in degrees, from -180 to 180
      */
     public Double getHeading() {
@@ -112,7 +120,8 @@ public class SwerveHardware {
 
     /**
      * Returns the turn rate of the robot.
-     *
+     * 
+     * 
      * @return The turn rate of the robot, in degrees per second
      */
     public Double getTurnRate() {

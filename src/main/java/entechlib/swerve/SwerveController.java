@@ -12,6 +12,12 @@ import entechlib.math.RateLimiter;
 import entechlib.swerve.config.RateLimiterConfig;
 import entechlib.swerve.config.SwerveControllerConfig;
 
+/**
+ * The {@code SwerveController} class contains the logic and odometry for the swerve system.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SwerveController {
     private SwerveDrivePoseEstimator odometry;
 
@@ -20,6 +26,15 @@ public class SwerveController {
     private final SwerveDriveKinematics kinematics;
     private final RateLimiter rateLimiter;
 
+
+    /**
+     * Creates a new {@code SwerveController} with the odometry in a starting position of 0, 0.
+     * 
+     * 
+     * @param config
+     * @param startingModulePositions
+     * @param startingGyroAngle
+     */
     public SwerveController(SwerveControllerConfig config, SwerveModulePosition[] startingModulePositions, Rotation2d startingGyroAngle) {
         maxSpeedMPS = config.getMaxSpeedMetersPerSecond();
         maxSpeedRadPS = config.getMaxAngularSpeedRadiansPerSecond();

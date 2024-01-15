@@ -1,21 +1,26 @@
 package entechlib.swerve.config;
 
+import entechlib.math.RateLimiter;
+
 /**
+ * Configuration class for the {@link RateLimiter}
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public class RateLimiterConfig {
-    /** radians per second */
-    private double directionalSlewRate = 1.2;
-    /** percent per second (1 = 100%) */
-    private double magnitudeSlewRate = 1.8;
-    /** percent per second (1 = 100%) */
-    private double rotationalSlewRate = 2.0;
+    private double directionalSlewRate;
+    private double magnitudeSlewRate;
+    private double rotationalSlewRate;
 
-    public RateLimiterConfig() {
-    }
-
+    /**
+     * Creates a new {@link RateLimiterConfig} with the given rate limits.
+     * 
+     * 
+     * @param directionalSlewRate
+     * @param magnitudeSlewRate
+     * @param rotationalSlewRate
+     */
     public RateLimiterConfig(double directionalSlewRate, double magnitudeSlewRate, double rotationalSlewRate) {
         this.directionalSlewRate = directionalSlewRate;
         this.magnitudeSlewRate = magnitudeSlewRate;

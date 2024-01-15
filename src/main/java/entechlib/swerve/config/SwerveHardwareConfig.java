@@ -1,16 +1,29 @@
 package entechlib.swerve.config;
 
 import entechlib.swerve.ConfigConstructionUtil.AbsoluteEncoderType;
-import entechlib.swerve.ConfigConstructionUtil.ControlType;
+import entechlib.swerve.ConfigConstructionUtil.ControlMethod;
 import entechlib.swerve.ConfigConstructionUtil.IMUType;
+import entechlib.swerve.SwerveHardware;
 
+/**
+ * The configuration class used for the {@link SwerveHardware}.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SwerveHardwareConfig {
+    /** The configurations for each turning motor. */
     public final MotorConfig turningMotorConfig = new MotorConfig();
+    /** The configurations for each drive motor. */
     public final MotorConfig drivingMotorConfig = new MotorConfig();
 
+    /** The configurations for the front left swerve module. */
     public final ModuleConfig frontLeftConfig = new ModuleConfig();
+    /** The configurations for the front right swerve module. */
     public final ModuleConfig frontRightConfig = new ModuleConfig();
+    /** The configurations for the rear left swerve module. */
     public final ModuleConfig rearLeftConfig = new ModuleConfig();
+    /** The configurations for the rear right swerve module. */
     public final ModuleConfig rearRightConfig = new ModuleConfig();
 
     private IMUType gyroType;
@@ -20,9 +33,12 @@ public class SwerveHardwareConfig {
 
     private AbsoluteEncoderType encoderType;
 
+    /**
+     * Sets definite config for the motor configurations.
+     */
     public SwerveHardwareConfig() {
-        turningMotorConfig.setControlMethod(ControlType.POSITION);
-        drivingMotorConfig.setControlMethod(ControlType.VELOCITY);
+        turningMotorConfig.setControlMethod(ControlMethod.POSITION);
+        drivingMotorConfig.setControlMethod(ControlMethod.VELOCITY);
     }
 
     public int getGyroID() {

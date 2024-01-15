@@ -1,7 +1,7 @@
 package entechlib.input;
 
 /**
- * A device that supplies driveInput to be filtered and used in the swerveDrive
+ * A device that supplies {@link DriveInput} to be filtered and used in the swerveDrive
  * system.
  * 
  * 
@@ -9,10 +9,10 @@ package entechlib.input;
  */
 public interface DriveInputDevice {
     /**
-     * Creates a new driveInput with the current inputs.
+     * Creates a new {@link DriveInput} with the current inputs.
      * 
      * 
-     * @return current input
+     * @return current {@link DriveInput}
      */
     public DriveInput getDriveInput();
 }

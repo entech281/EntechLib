@@ -6,9 +6,18 @@ import entechlib.input.DriveInput;
 import entechlib.swerve.SwerveUtils;
 import entechlib.swerve.config.RateLimiterConfig;
 
+/**
+ * The {@link RateLimiter} class limits the rate of acceleration allowing for more fluid driving of the robot.
+ */
 public class RateLimiter {
     private final double directionalSlewRate;
 
+    /**
+     * Creates a {@link RateLimiter} with the give {@link RateLimiterConfig}.
+     * 
+     * 
+     * @param config
+     */
     public RateLimiter(RateLimiterConfig config) {
         magLimiter = new SlewRateLimiter(config.getMagnitudeSlewRate());
         rotLimiter = new SlewRateLimiter(config.getRotationalSlewRate());
@@ -22,6 +31,14 @@ public class RateLimiter {
     private final SlewRateLimiter rotLimiter;
     private double prevTime = WPIUtilJNI.now() * 1e-6;
 
+    /**
+     * Limits the rate of the acceleration of the {@link DriveInput} to the swerve controller.
+     * 
+     * TODO: Reverse engineer this method and figure out how it works, then break it double in to well documented smalled methods.
+     * 
+     * @param input
+     * @return a {@link DriveInput} object with the limited values.
+     */
     public DriveInput limit(DriveInput input) {
         // Convert XY to polar for rate limiting
         double inputTranslationDir = Math.atan2(input.getYSpeed(), input.getXSpeed());

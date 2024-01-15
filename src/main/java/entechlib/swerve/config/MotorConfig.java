@@ -1,6 +1,6 @@
 package entechlib.swerve.config;
 
-import entechlib.swerve.ConfigConstructionUtil.ControlType;
+import entechlib.swerve.ConfigConstructionUtil.ControlMethod;
 import entechlib.swerve.ConfigConstructionUtil.MotorType;
 
 public class MotorConfig {
@@ -11,7 +11,7 @@ public class MotorConfig {
     private int currentLimit;
     private double positionConversionFactor;
     private double velocityConversionFactor;
-    private ControlType controlMethod;
+    private ControlMethod controlMethod;
     private MotorType motorType;
 
     public void setPID(double p, double i, double d) {
@@ -76,11 +76,11 @@ public class MotorConfig {
         this.velocityConversionFactor = velocityConversionFactor;
     }
 
-    public ControlType getControlMethod() {
+    public ControlMethod getControlMethod() {
         return this.controlMethod;
     }
 
-    public void setControlMethod(ControlType controlMethod) {
+    public void setControlMethod(ControlMethod controlMethod) {
         this.controlMethod = controlMethod;
     }
 

@@ -20,21 +20,33 @@ import entechlib.swerve.motors.SwerveMotor;
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
 public final class ConfigConstructionUtil {
+    /**
+     * Different supported hardware options for absolute encoders.
+     */
     public enum AbsoluteEncoderType {
         THRIFTY,
         CANCODER
     }
 
+    /**
+     * Different supported hardware options for turning or driving motors on a swerve module.
+     */
     public enum MotorType {
         SPARK_MAX_NEO,
         SPARK_FLEX_VORTEX
     }
 
-    public enum ControlType {
+    /**
+     * Methods of control for a swerve motor.
+     */
+    public enum ControlMethod {
         VELOCITY,
         POSITION
     }
 
+    /**
+     * Different supported hardware options for robot IMUs.
+     */
     public enum IMUType {
         NAVX_MXP,
         NAVX_USB
@@ -44,10 +56,10 @@ public final class ConfigConstructionUtil {
      * Makes and configures a swerve module's motor.
      * 
      * 
-     * @param swerveConfig
+     * @param config
      * @param id
      * @param inverted
-     * @return
+     * @return Configured swerve motor of provided settings.
      */
     public static SwerveMotor getMotor(MotorConfig config, int id, boolean inverted) {
         SwerveMotor motor = null;
@@ -71,7 +83,7 @@ public final class ConfigConstructionUtil {
      * @param swerveConfig
      * @param id
      * @param offsetRadians
-     * @return
+     * @return Configured absolute encoder of provided settings.
      */
     public static AbsoluteEncoder getAbsoluteEncoder(AbsoluteEncoderType type, int id, double offsetRadians) {
         AbsoluteEncoder encoder = null;
@@ -91,11 +103,11 @@ public final class ConfigConstructionUtil {
 
 
     /**
-     * Makes and configures a swerve bot's IMU.
+     * Makes a swerve bot's IMU.
      * 
      * 
      * @param swerveConfig
-     * @return
+     * @return IMU of provided settings.
      */
     public static SwerveIMU getSwerveIMU(SwerveHardwareConfig swerveConfig) {
         switch (swerveConfig.getGyroType()) {

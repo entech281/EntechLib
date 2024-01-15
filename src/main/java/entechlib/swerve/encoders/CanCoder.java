@@ -5,12 +5,17 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.util.Units;
 
 /**
- * The {@code CanCoder} class contains fields and methods pertaining to the
- * function of the absolute encoder.
+ * The {@link CanCoder} class contains the interface for a CANCoder to output  on the guidelines of {@link AbsoluteEncoder}
  */
 public class CanCoder extends AbsoluteEncoder {
 	private CANcoder encoder;
 
+	/**
+	 * Creates a new {@link CanCoder} on the canbus id given.
+	 * 
+	 * 
+	 * @param port
+	 */
 	public CanCoder(int port) {
 		this.encoder = new CANcoder(port);
 	}

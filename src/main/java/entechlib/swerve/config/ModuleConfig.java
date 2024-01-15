@@ -1,6 +1,7 @@
 package entechlib.swerve.config;
 
 /**
+ * Contains the component IDs of the swerve module as well as the encoder offset and if either motor is inverted.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>

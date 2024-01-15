@@ -3,7 +3,14 @@ package entechlib.swerve.config;
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import entechlib.swerve.SwerveController;
 
+/**
+ * The configuration class that for the {@link SwerveController}.
+ * 
+ * 
+ * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
+ */
 public class SwerveControllerConfig {
     private double maxSpeedMetersPerSecond;
     private double maxAngularSpeedRadiansPerSecond;

@@ -1,28 +1,10 @@
 package entechlib.swerve;
 
-public class SwerveUtils {
-
+/**
+ * Basic utilities for swerve.
+ */
+public final class SwerveUtils {
     private SwerveUtils() {
-    }
-
-    /**
-     * Steps a value towards a target with a specified step size.
-     * 
-     * @param current  The current or starting value. Can be positive or negative.
-     * @param target   The target value the algorithm will step towards. Can be
-     *                  positive or negative.
-     * @param stepsize The maximum step size that can be taken.
-     * @return The new value for {@code _current} after performing the specified
-     *         step towards the specified target.
-     */
-    public static double stepTowards(double current, double target, double stepsize) {
-        if (Math.abs(current - target) <= stepsize) {
-            return target;
-        } else if (target < current) {
-            return current - stepsize;
-        } else {
-            return current + stepsize;
-        }
     }
 
     /**
