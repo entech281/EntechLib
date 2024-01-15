@@ -1,12 +1,19 @@
 package entechlib.swerve.encoders;
 
 /**
- * Basic interface for an absolute encoder for a swerve module.
+ * Basic abstract class for an absolute encoder for a swerve module.
  * 
  * 
  * @author <a href="https://github.com/WhyDoesGodDoThis">Andrew Heitkamp</a>
  */
-public interface AbsoluteEncoder {
+public abstract class AbsoluteEncoder {
+    protected boolean inverted;
+	protected double positionOffset;
+
+    protected AbsoluteEncoder() {
+        this.inverted = false;
+		this.positionOffset = 0.0;
+    }
 
     /**
      * Returns the current raw position of the absolute encoder.
@@ -14,7 +21,7 @@ public interface AbsoluteEncoder {
      * 
      * @return the current raw position of the absolute encoder in radians.
      */
-    double getPosition();
+    public abstract double getPosition();
 
     /**
      * Inverts the absolute encoder.
@@ -22,7 +29,9 @@ public interface AbsoluteEncoder {
      * 
      * @param inverted flag indicating if inverted.
      */
-    void setInverted(boolean inverted);
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+    }
 
     /**
      * Sets the position offset between the raw position and the virtual position.
@@ -30,7 +39,9 @@ public interface AbsoluteEncoder {
      * 
      * @param offset offset in radians
      */
-    void setPositionOffset(double offset);
+    public void setPositionOffset(double offset) {
+        positionOffset = offset;
+    }
 
     /**
      * Returns the position offset between the raw position and the virtual
@@ -39,7 +50,9 @@ public interface AbsoluteEncoder {
      * 
      * @return the position offset in radians.
      */
-    double getPositionOffset();
+    public double getPositionOffset() {
+        return positionOffset;
+    }
 
     /**
      * Returns the virtual position of the absolute encoder (raw position minus
@@ -48,5 +61,7 @@ public interface AbsoluteEncoder {
      * 
      * @return the virtual position in radians.
      */
-    double getVirtualPosition();
+    public double getVirtualPosition() {
+        return getPosition() - positionOffset;
+    }
 }
