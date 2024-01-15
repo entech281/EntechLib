@@ -3,9 +3,11 @@ package entechlib.swerve;
 import entechlib.swerve.config.MotorConfig;
 import entechlib.swerve.config.SwerveHardwareConfig;
 import entechlib.swerve.encoders.AbsoluteEncoder;
+import entechlib.swerve.encoders.CanCoder;
 import entechlib.swerve.encoders.ThriftyEncoder;
 import entechlib.swerve.exceptions.InvalidTypeException;
 import entechlib.swerve.imus.NavxMXP;
+import entechlib.swerve.imus.NavxUSB;
 import entechlib.swerve.imus.SwerveIMU;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
@@ -18,7 +20,8 @@ import entechlib.swerve.motors.SwerveMotor;
  */
 public final class ConfigConstructionUtil {
     public enum AbsoluteEncoderType {
-        THRIFTY
+        THRIFTY,
+        CANCODER
     }
 
     public enum MotorType {
@@ -31,7 +34,8 @@ public final class ConfigConstructionUtil {
     }
 
     public enum IMUType {
-        NAVX_MXP
+        NAVX_MXP,
+        NAVX_USB
     }
 
     /**
@@ -71,6 +75,8 @@ public final class ConfigConstructionUtil {
             case THRIFTY:
                 encoder = new ThriftyEncoder(id);
                 break;
+            case CANCODER:
+                encoder = new CanCoder(id);
         }
         if (encoder == null) {
             throw new InvalidTypeException("Encoder", type.toString());
@@ -91,6 +97,8 @@ public final class ConfigConstructionUtil {
         switch (swerveConfig.getGyroType()) {
             case NAVX_MXP:
                 return new NavxMXP();
+            case NAVX_USB:
+                return new NavxUSB(swerveConfig.getGyroID());
             default:
                 throw new InvalidTypeException("IMU", swerveConfig.getGyroType().toString());
         }

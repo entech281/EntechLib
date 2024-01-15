@@ -2,7 +2,8 @@ package entechlib.swerve.imus;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SerialPort.Port;
+
 
 public class NavxMXP extends NavxGyro {
     public NavxMXP() {

@@ -18,11 +18,6 @@ public interface SwerveIMU {
     void setAngleOffset(double offset);
 
     /**
-     * Sets the offset to the raw gyro value.
-     */
-    void zeroYaw();
-
-    /**
      * Resets the yaw heading to 0.
      */
     void reset();

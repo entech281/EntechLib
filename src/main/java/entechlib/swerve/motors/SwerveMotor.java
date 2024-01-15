@@ -16,10 +16,10 @@ public interface SwerveMotor {
     void set(double speed);
 
     /**
-     * Sets the desired position in term of the relative encoder with the conversion factor.
+     * Resets the position of the relative encoder in rotations.
      * 
      * 
-     * @param position In terms of relative encoder with the conversion factor.
+     * @param position In rotations.
      */
     void setPosition(double position);
 

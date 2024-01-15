@@ -22,11 +22,6 @@ public abstract class NavxGyro implements SwerveIMU {
     }
 
     @Override
-    public void zeroYaw() {
-        navx.zeroYaw();
-    }
-
-    @Override
     public void reset() {
         navx.reset();
     }
