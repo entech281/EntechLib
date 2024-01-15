@@ -22,10 +22,10 @@ import entechlib.swerve.config.TempSwerveConfig;
  * Swerve drive system, contains the cross logic and main interface for the swerve controller and hardware.
  */
 public class SwerveDrive {
-    private SwerveHardware hardware;
-    private SwerveController controller;
+    private final SwerveHardware hardware;
+    private final SwerveController controller;
 
-    Field2d field = new Field2d();
+    private final Field2d field = new Field2d();
 
     /**
      * Create a new swerve drive system.

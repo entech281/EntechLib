@@ -9,19 +9,19 @@ import edu.wpi.first.math.util.Units;
  * function of the absolute encoder.
  */
 public class CanCoder implements AbsoluteEncoder {
-	private CANcoder canCoder;
+	private CANcoder encoder;
 	private boolean inverted;
 	private double positionOffset;
 
 	public CanCoder(int port) {
-		this.canCoder = new CANcoder(port);
+		this.encoder = new CANcoder(port);
 		this.inverted = false;
 		this.positionOffset = 0.0;
 	}
 
 	@Override
 	public double getPosition() {
-		return (inverted ? -1.0 : 1.0) * Units.degreesToRadians(canCoder.getAbsolutePosition().getValueAsDouble());
+		return (inverted ? -1.0 : 1.0) * Units.degreesToRadians(encoder.getAbsolutePosition().getValueAsDouble());
 	}
 
 	@Override

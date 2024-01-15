@@ -6,6 +6,6 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class NavxUSB extends NavxGyro {
     public NavxUSB(int usbPort) {
-        super(new AHRS(usbPort == 1 ? Port.kUSB2 : Port.kUSB2));
+        super(new AHRS(usbPort == 1 ? Port.kUSB1 : Port.kUSB2));
     }
 }

@@ -9,6 +9,7 @@ import entechlib.swerve.exceptions.InvalidTypeException;
 import entechlib.swerve.imus.NavxMXP;
 import entechlib.swerve.imus.NavxUSB;
 import entechlib.swerve.imus.SwerveIMU;
+import entechlib.swerve.motors.SparkFlexVortex;
 import entechlib.swerve.motors.SparkMaxNeo;
 import entechlib.swerve.motors.SwerveMotor;
 
@@ -25,7 +26,8 @@ public final class ConfigConstructionUtil {
     }
 
     public enum MotorType {
-        SPARK_MAX_NEO
+        SPARK_MAX_NEO,
+        SPARK_FLEX_VORTEX
     }
 
     public enum ControlType {
@@ -53,9 +55,11 @@ public final class ConfigConstructionUtil {
             case SPARK_MAX_NEO:
                 motor = new SparkMaxNeo(id, config, inverted);
                 break;
-        }
-        if (motor == null) {
-            throw new InvalidTypeException("Motor", config.getMotorType().toString());
+            case SPARK_FLEX_VORTEX:
+                motor = new SparkFlexVortex(id, config, inverted);
+                break;
+            default:
+                throw new InvalidTypeException("Motor", config.getMotorType().toString());
         }
         return motor;
     }
@@ -77,9 +81,9 @@ public final class ConfigConstructionUtil {
                 break;
             case CANCODER:
                 encoder = new CanCoder(id);
-        }
-        if (encoder == null) {
-            throw new InvalidTypeException("Encoder", type.toString());
+                break;
+            default:
+                throw new InvalidTypeException("Encoder", type.toString());
         }
         encoder.setPositionOffset(offsetRadians);
         return encoder;
