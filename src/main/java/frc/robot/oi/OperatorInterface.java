@@ -17,7 +17,7 @@ public final class OperatorInterface {
 
         driveJoystick.whilePressed(1, new DriveTwistCommand(policy));
         driveJoystick.whilePressed(9, new DriveXLockCommand(policy));
-        driveJoystick.whenPressed(0, new DriveGyroReset(driveSubsystem::zeroHeading));
+        driveJoystick.whenPressed(11, new DriveGyroReset(driveSubsystem::zeroHeading));
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick, policy));
     }
 

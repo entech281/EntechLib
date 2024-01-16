@@ -1,12 +1,13 @@
 package org.entechlib.swerve;
 
+import org.entechlib.swerve.config.SwerveHardwareConfig;
+import org.entechlib.swerve.imus.SwerveIMU;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import org.entechlib.swerve.config.SwerveHardwareConfig;
-import org.entechlib.swerve.imus.SwerveIMU;
 
 /**
  * Part of a swerve drive system, contains the swerve modules and gyro.
@@ -26,17 +27,19 @@ public class SwerveHardware {
     private final double gyroOffset;
 
     public SwerveHardware(SwerveHardwareConfig config) {
-        gyroInverted = config.getGyroInverted();
-        gyroOffset = config.getGyroOffset();
-
-        gyro = ConfigConstructionUtil.getSwerveIMU(config);
-        zeroHeading();
-        resetEncoders();
-
         frontLeft = new SwerveModule(config, config.frontLeftConfig);
         frontRight = new SwerveModule(config, config.frontRightConfig);
         rearLeft = new SwerveModule(config, config.rearLeftConfig);
         rearRight = new SwerveModule(config, config.rearRightConfig);
+
+        gyro = ConfigConstructionUtil.getSwerveIMU(config);
+
+
+        gyroInverted = config.getGyroInverted();
+        gyroOffset = config.getGyroOffset();
+
+        zeroHeading();
+        resetEncoders();
     }
 
     /**

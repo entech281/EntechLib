@@ -3,6 +3,7 @@ package org.entechlib.swerve.imus;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Base class for navx port configurations to use the {@code SwerveIMU} interface.
@@ -21,6 +22,7 @@ public abstract class NavxGyro implements SwerveIMU {
      */
     protected NavxGyro(AHRS navx) {
         this.navx = navx;
+        SmartDashboard.putData(navx);
     }
 
     @Override
